@@ -31,6 +31,16 @@
 		F2D1BFEF1FFF1A2100DF7000 /* CALayer+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D1BFEE1FFF1A2100DF7000 /* CALayer+Util.swift */; };
 		F2D1BFF22000178F00DF7000 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F2D1BFF42000178F00DF7000 /* InfoPlist.strings */; };
 		F2D1BFF7200062E200DF7000 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D1BFF6200062E200DF7000 /* Color.swift */; };
+		F2D1BFF92001AB5C00DF7000 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D1BFF82001AB5C00DF7000 /* GradientView.swift */; };
+		F2D1BFFD2001C37F00DF7000 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D1BFFC2001C37F00DF7000 /* Logger.swift */; };
+		F2D1BFFF2001CE9200DF7000 /* PageHorizontalLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D1BFFE2001CE9200DF7000 /* PageHorizontalLayout.swift */; };
+		F2D1C0012004DCC400DF7000 /* PopoverBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D1C0002004DCC300DF7000 /* PopoverBackgroundView.swift */; };
+		F2D1C006200665B600DF7000 /* ImageViewWithBlurBackground_bak.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D1C005200665B600DF7000 /* ImageViewWithBlurBackground_bak.swift */; };
+		F2D1C0132006726F00DF7000 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2D1C0102006717600DF7000 /* GPUImage.framework */; };
+		F2D1C0152006737500DF7000 /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F2D1C0102006717600DF7000 /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F2D1C0182006971800DF7000 /* UIImage+Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D1C0172006971800DF7000 /* UIImage+Blur.swift */; };
+		F2D1C01A2006A52400DF7000 /* ImageViewWithBlurBackground_bak2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D1C0192006A52400DF7000 /* ImageViewWithBlurBackground_bak2.swift */; };
+		F2D1C01C2007071E00DF7000 /* UIImageEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D1C01B2007071E00DF7000 /* UIImageEffects.swift */; };
 		F2D745621FFAAA6500D9BE72 /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D745611FFAAA6500D9BE72 /* PhotosViewController.swift */; };
 		F2D745661FFACCD100D9BE72 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2D745651FFACCD100D9BE72 /* MainViewController.xib */; };
 		F2D745681FFACCE200D9BE72 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D745671FFACCE200D9BE72 /* MainViewController.swift */; };
@@ -44,7 +54,41 @@
 			remoteGlobalIDString = F279859E1FF3717D0066EDA3;
 			remoteInfo = DigitalPhotoFrame;
 		};
+		F2D1C00D2006717600DF7000 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2D1C0072006717600DF7000 /* GPUImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BCF1A33414DDB1EC00852800;
+			remoteInfo = GPUImage;
+		};
+		F2D1C00F2006717600DF7000 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2D1C0072006717600DF7000 /* GPUImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BCE209E51943F20C002FEED8;
+			remoteInfo = GPUImageFramework;
+		};
+		F2D1C0112006725900DF7000 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2D1C0072006717600DF7000 /* GPUImage.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BCE209E41943F20C002FEED8;
+			remoteInfo = GPUImageFramework;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F2D1C0142006734E00DF7000 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F2D1C0152006737500DF7000 /* GPUImage.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		F225082D1FFC9A5400EBF3AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Localizable.strings; sourceTree = "<group>"; };
@@ -76,6 +120,15 @@
 		F2D1BFF32000178F00DF7000 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F2D1BFF52000179700DF7000 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F2D1BFF6200062E200DF7000 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		F2D1BFF82001AB5C00DF7000 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		F2D1BFFC2001C37F00DF7000 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		F2D1BFFE2001CE9200DF7000 /* PageHorizontalLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageHorizontalLayout.swift; sourceTree = "<group>"; };
+		F2D1C0002004DCC300DF7000 /* PopoverBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverBackgroundView.swift; sourceTree = "<group>"; };
+		F2D1C005200665B600DF7000 /* ImageViewWithBlurBackground_bak.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewWithBlurBackground_bak.swift; sourceTree = "<group>"; };
+		F2D1C0072006717600DF7000 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = DigitalPhotoFrame/GPUImage/GPUImage.xcodeproj; sourceTree = "<group>"; };
+		F2D1C0172006971800DF7000 /* UIImage+Blur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Blur.swift"; sourceTree = "<group>"; };
+		F2D1C0192006A52400DF7000 /* ImageViewWithBlurBackground_bak2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewWithBlurBackground_bak2.swift; sourceTree = "<group>"; };
+		F2D1C01B2007071E00DF7000 /* UIImageEffects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageEffects.swift; sourceTree = "<group>"; };
 		F2D745611FFAAA6500D9BE72 /* PhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
 		F2D745651FFACCD100D9BE72 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 		F2D745671FFACCE200D9BE72 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -86,6 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2D1C0132006726F00DF7000 /* GPUImage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +187,7 @@
 		F27985961FF3717D0066EDA3 = {
 			isa = PBXGroup;
 			children = (
+				F2D1C0072006717600DF7000 /* GPUImage.xcodeproj */,
 				F27985A11FF3717D0066EDA3 /* DigitalPhotoFrame */,
 				F27985B61FF3717E0066EDA3 /* DigitalPhotoFrameTests */,
 				F27985A01FF3717D0066EDA3 /* Products */,
@@ -173,6 +228,14 @@
 				F2D1BFEC1FFE84AA00DF7000 /* Random.swift */,
 				F2D1BFEE1FFF1A2100DF7000 /* CALayer+Util.swift */,
 				F2D1BFF6200062E200DF7000 /* Color.swift */,
+				F2D1BFF82001AB5C00DF7000 /* GradientView.swift */,
+				F2D1BFFE2001CE9200DF7000 /* PageHorizontalLayout.swift */,
+				F2D1BFFC2001C37F00DF7000 /* Logger.swift */,
+				F2D1C0002004DCC300DF7000 /* PopoverBackgroundView.swift */,
+				F2D1C005200665B600DF7000 /* ImageViewWithBlurBackground_bak.swift */,
+				F2D1C0172006971800DF7000 /* UIImage+Blur.swift */,
+				F2D1C01B2007071E00DF7000 /* UIImageEffects.swift */,
+				F2D1C0192006A52400DF7000 /* ImageViewWithBlurBackground_bak2.swift */,
 				F225082A1FFC9A3900EBF3AC /* Resources */,
 			);
 			path = DigitalPhotoFrame;
@@ -187,6 +250,15 @@
 			path = DigitalPhotoFrameTests;
 			sourceTree = "<group>";
 		};
+		F2D1C0082006717600DF7000 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F2D1C00E2006717600DF7000 /* libGPUImage.a */,
+				F2D1C0102006717600DF7000 /* GPUImage.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -197,10 +269,12 @@
 				F279859B1FF3717D0066EDA3 /* Sources */,
 				F279859C1FF3717D0066EDA3 /* Frameworks */,
 				F279859D1FF3717D0066EDA3 /* Resources */,
+				F2D1C0142006734E00DF7000 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F2D1C0122006725900DF7000 /* PBXTargetDependency */,
 			);
 			name = DigitalPhotoFrame;
 			productName = DigitalPhotoFrame;
@@ -260,6 +334,12 @@
 			mainGroup = F27985961FF3717D0066EDA3;
 			productRefGroup = F27985A01FF3717D0066EDA3 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F2D1C0082006717600DF7000 /* Products */;
+					ProjectRef = F2D1C0072006717600DF7000 /* GPUImage.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				F279859E1FF3717D0066EDA3 /* DigitalPhotoFrame */,
@@ -267,6 +347,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F2D1C00E2006717600DF7000 /* libGPUImage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libGPUImage.a;
+			remoteRef = F2D1C00D2006717600DF7000 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F2D1C0102006717600DF7000 /* GPUImage.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GPUImage.framework;
+			remoteRef = F2D1C00F2006717600DF7000 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		F279859D1FF3717D0066EDA3 /* Resources */ = {
@@ -300,22 +397,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2D1BFFD2001C37F00DF7000 /* Logger.swift in Sources */,
 				F2D1BFD91FFD7D0000DF7000 /* TimePopoverController.swift in Sources */,
 				F27985A31FF3717D0066EDA3 /* AppDelegate.swift in Sources */,
 				F2A8032B1FF8673B00C36C3C /* AlbumsViewController.swift in Sources */,
+				F2D1C0012004DCC400DF7000 /* PopoverBackgroundView.swift in Sources */,
 				F27BA1DA1FFC9D1900A2015C /* String+Localized.swift in Sources */,
 				F2A8032F1FF86B9C00C36C3C /* AlbumCell.swift in Sources */,
+				F2D1BFF92001AB5C00DF7000 /* GradientView.swift in Sources */,
+				F2D1C01C2007071E00DF7000 /* UIImageEffects.swift in Sources */,
 				F2D1BFF7200062E200DF7000 /* Color.swift in Sources */,
 				F2D745621FFAAA6500D9BE72 /* PhotosViewController.swift in Sources */,
 				F2D1BFED1FFE84AA00DF7000 /* Random.swift in Sources */,
 				F23B88031FF96E7C00721312 /* Device.swift in Sources */,
 				F2D1BFE91FFDD99700DF7000 /* AnimationsPopoverController.swift in Sources */,
 				F23B88051FF98C5200721312 /* Utils.swift in Sources */,
+				F2D1C0182006971800DF7000 /* UIImage+Blur.swift in Sources */,
 				F2D1BFE71FFDBDDB00DF7000 /* Settings.swift in Sources */,
 				F2D1BFD71FFCA01B00DF7000 /* SettingsBar.swift in Sources */,
 				F2D1BFEF1FFF1A2100DF7000 /* CALayer+Util.swift in Sources */,
 				F2D745681FFACCE200D9BE72 /* MainViewController.swift in Sources */,
+				F2D1C01A2006A52400DF7000 /* ImageViewWithBlurBackground_bak2.swift in Sources */,
+				F2D1BFFF2001CE9200DF7000 /* PageHorizontalLayout.swift in Sources */,
 				F2D1BFE31FFD997400DF7000 /* UIColor+Util.swift in Sources */,
+				F2D1C006200665B600DF7000 /* ImageViewWithBlurBackground_bak.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,6 +439,11 @@
 			isa = PBXTargetDependency;
 			target = F279859E1FF3717D0066EDA3 /* DigitalPhotoFrame */;
 			targetProxy = F27985B41FF3717E0066EDA3 /* PBXContainerItemProxy */;
+		};
+		F2D1C0122006725900DF7000 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GPUImageFramework;
+			targetProxy = F2D1C0112006725900DF7000 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

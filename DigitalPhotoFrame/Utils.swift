@@ -52,3 +52,29 @@ extension CGPoint {
         return CGPoint(x: x + dx, y: y + dy)
     }
 }
+
+extension CGSize {
+    
+    var min: CGFloat {
+        return width < height ? width : height
+    }
+    
+    var max: CGFloat {
+        return width > height ? width : height
+    }
+    
+//    var integral: CGSize {
+//        return CGSize(width: Int(self.width), height: Int(self.height))
+//    }
+}
+
+extension UIImage {
+    
+    func withAlpha(_ value: CGFloat) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        draw(at: CGPoint.zero, blendMode: .normal, alpha: value)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage!
+    }
+}

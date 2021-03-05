@@ -42,7 +42,7 @@ class MainViewController: UIViewController {
     }
     
     func presentPhotosViewController(_ photosVC: PhotosViewController) {
-        print("main: present photos view controller")
+        logIN()
         guard !isTransitioning else { return }
         isTransitioning = true
         addChildViewController(photosVC)
@@ -59,7 +59,7 @@ class MainViewController: UIViewController {
         
         selectedCell?.prepareToUnfold()
         
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: { [weak self] in
+        UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 1.8, initialSpringVelocity: 1, options: .curveEaseOut, animations: { [weak self] in
             guard let weakSelf = self else { return }
             weakSelf.albumsVC.effectView.alpha = 1
             weakSelf.selectedCell?.unfold()
@@ -73,6 +73,7 @@ class MainViewController: UIViewController {
                 weakSelf.onPhotosViewControllerIsReady(photosVC)
             }
         })
+        logOUT()
     }
     
     func onPhotosViewControllerIsReady(_ photosVC: PhotosViewController) {
@@ -93,11 +94,11 @@ class MainViewController: UIViewController {
     
     func returnToAlbums(animated: Bool) {
         guard !isTransitioning else { return }
-        isTransitioning = true
         guard let photosVC = currentController as? PhotosViewController else { return }
+        isTransitioning = true
         photosVC.willMove(toParentViewController: nil)
         albumsVC.view.alpha = 1
-        UIView.animate(withDuration: animated ? 0.5 : 0, delay: 0, options: .curveEaseOut, animations: { [weak self] in
+        UIView.animate(withDuration: animated ? 0.7 : 0, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: { [weak self] in
             guard let weakSelf = self else { return }
             photosVC.view.alpha = 0
             weakSelf.selectedCell?.foldup()
@@ -123,11 +124,13 @@ class MainViewController: UIViewController {
     }
     
     @objc func appMovedToBackground() {
-        print("Main: App moved to background.")
+        logIN()
         if let photosVC = currentController as? PhotosViewController {
             photosVC.stopTimer()
+            photosVC.view.layer.removeAllAnimations()
             returnToAlbums(animated: false)
         }
+        logOUT()
     }
 }
 
@@ -141,7 +144,8 @@ extension MainViewController: AlbumsViewControllerDelegate {
             albumsVC.collectionView.alpha = 0.0
             break
         case .ready:
-            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: { [weak self] in
+//            albumsVC.collectionView.collectionViewLayout.invalidateLayout()
+            UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 1.8, initialSpringVelocity: 1, options: .curveEaseOut, animations: { [weak self] in
                 guard let weakSelf = self else { return }
                 weakSelf.albumsVC.collectionView.transform = CGAffineTransform.identity
                 weakSelf.albumsVC.collectionView.alpha = 1.0

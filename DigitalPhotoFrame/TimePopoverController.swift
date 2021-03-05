@@ -33,8 +33,25 @@ class TimePopoverController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = Color.mineShaft
+//        view.backgroundColor = UIColor(white: 0.15, alpha: 1)
+//        view.layer.shadowColor = UIColor.red.cgColor
+//        view.layer.shadowRadius = 1
+//        view.layer.shadowOpacity = 1
+//        view.layer.masksToBounds = false
         picker.selectRow(currentIndex, inComponent: 0, animated: false)
     }
+    
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        view.layer.shadowPath = CGPath(rect: view.bounds, transform: nil)
+////        view.superview?.layer.shadowColor = UIColor.green.cgColor
+////        view.superview?.layer.masksToBounds = false
+////        view.superview?.superview?.layer.shadowColor = UIColor.green.cgColor
+//        for subview in (view.superview?.subviews)! {
+//            subview.layer.shadowColor = UIColor.green.cgColor
+//        }
+//    }
     
     func formatTime(_ seconds: Int) -> String {
         var res = ""

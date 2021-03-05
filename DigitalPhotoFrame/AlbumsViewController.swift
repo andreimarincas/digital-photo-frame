@@ -48,11 +48,15 @@ class AlbumsViewController: UIViewController {
         case permissionDenied
     }
     
-    @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var settingsBar: SettingsBar!
     @IBOutlet var settingsViewTop: NSLayoutConstraint!
     @IBOutlet var noPhotosLabel: UILabel!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet var separator: UIView!
+    @IBOutlet var pageControl: UIPageControl!
+    
+    private(set) var effectView: UIVisualEffectView!
+    private(set) var effectViewContainer: UIView!
     
     fileprivate let cellReuseID = "cellReuseID"
     fileprivate var albums: [Album] = []
@@ -60,7 +64,7 @@ class AlbumsViewController: UIViewController {
     
     weak var delegate: AlbumsViewControllerDelegate?
     
-    var thumbnailSize: CGSize {
+    fileprivate var thumbnailSize: CGSize {
         if Device.IS_IPAD {
             return CGSize(width: 200.0, height: 200.0)
         } else { // iPhone
@@ -68,37 +72,51 @@ class AlbumsViewController: UIViewController {
         }
     }
     
-    var effectView: UIVisualEffectView!
-    var effectViewContainer: UIView!
+    fileprivate var collectionViewFrame: CGRect {
+        let top: CGFloat = 64
+        let viewSize = self.view.frame.size
+        return CGRect(x: 0, y: top, width: viewSize.max, height: viewSize.min - top)
+//        return CGRect(x: 0, y: top, width: viewSize.width, height: viewSize.height - top)
+    }
+    
+    private var _collectionView: UICollectionView?
+    var collectionView: UICollectionView {
+        if _collectionView == nil {
+            let pageHorizontalLayout = PageHorizontalLayout()
+            _collectionView = UICollectionView(frame: self.collectionViewFrame, collectionViewLayout: pageHorizontalLayout)
+            _collectionView?.showsHorizontalScrollIndicator = false
+            _collectionView?.showsVerticalScrollIndicator = false
+            let nib = UINib(nibName: "AlbumCell", bundle: nil)
+            _collectionView?.register(nib, forCellWithReuseIdentifier: cellReuseID)
+            _collectionView?.isPagingEnabled = true
+            _collectionView?.layer.masksToBounds = false
+            _collectionView?.disableDelaysContentTouches()
+            _collectionView?.delegate = self
+            _collectionView?.dataSource = self
+            _collectionView?.backgroundColor = .clear
+            self.view.insertSubview(_collectionView!, at: 0)
+        }
+        return _collectionView!
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let nib = UINib(nibName: "AlbumCell", bundle: nil)
-        collectionView.register(nib, forCellWithReuseIdentifier: cellReuseID)
-        collectionView.disableDelaysContentTouches()
+        self.view.backgroundColor = Color.codGray
+        separator.backgroundColor = Color.mineShaftLight
         
+        initializeSettingsBar()
         createBlurEffectView()
         
-        // Initialize settings
-        settingsBar.time = Settings.time
-        settingsBar.animation = Settings.animation
-        settingsBar.isRandom = Settings.isRandom
-        settingsBar.delegate = self
-        
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground),
+                                       name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
+        
+        handleAuthorization()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateUI()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        DispatchQueue.main.async {
-            self.handleAuthorization()
-        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -107,12 +125,13 @@ class AlbumsViewController: UIViewController {
     }
     
     @objc func appMovedToBackground() {
-        print("Albums: App moved to background.")
+        logIN()
         if let presentedVC = self.presentedViewController {
             if presentedVC is TimePopoverController || presentedVC is AnimationsPopoverController {
                 presentedVC.dismiss(animated: false, completion: nil)
             }
         }
+        logOUT()
     }
     
     private func createBlurEffectView() {
@@ -126,19 +145,29 @@ class AlbumsViewController: UIViewController {
         effectViewContainer.addSubview(effectView)
         effectViewContainer.isHidden = true
         effectView.alpha = 0
-        collectionView.addSubview(effectViewContainer)
+        self.collectionView.addSubview(effectViewContainer)
         self.effectView = effectView
         self.effectViewContainer = effectViewContainer
     }
     
+    private func initializeSettingsBar() {
+        settingsBar.time = Settings.time
+        settingsBar.animation = Settings.animation
+        settingsBar.isRandom = Settings.isRandom
+        settingsBar.delegate = self
+        settingsBar.backgroundColor = Color.mineShaft
+    }
+    
     private func updateUI() {
-        effectViewContainer.frame = collectionView.bounds
+        let contentRect = CGRect(origin: .zero, size: self.collectionView.contentSize)
+        effectViewContainer.frame = contentRect.insetBy(dx: 0, dy: -64)
         effectView.frame = effectViewContainer.bounds
     }
     
     private func handleAuthorization() {
+        logIN()
         let auth = PHPhotoLibrary.authorizationStatus()
-        print("Authorization status: \(auth.rawValue)")
+        logDebug("Authorization status: \(auth.rawValue)")
         switch auth {
         case .authorized:
             state = .fetching
@@ -150,7 +179,7 @@ class AlbumsViewController: UIViewController {
             PHPhotoLibrary.requestAuthorization({ (auth) in
                 DispatchQueue.main.async { [weak self] in
                     guard let weakSelf = self else { return }
-                    print("auth: \(auth.rawValue)")
+                    logDebug("auth: \(auth.rawValue)")
                     switch auth {
                     case .authorized:
                         weakSelf.state = .fetching
@@ -165,10 +194,11 @@ class AlbumsViewController: UIViewController {
             })
             break
         }
+        logOUT()
     }
     
     private func fetchAlbums() {
-        print("Fetch albums.")
+        logIN()
         PHPhotoLibrary.authorizationStatus()
         let fetchOptions = PHFetchOptions()
         let smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: fetchOptions)
@@ -212,17 +242,20 @@ class AlbumsViewController: UIViewController {
                 }
             })
         }
+        logOUT()
     }
     
     private func didFetchAlbums(_ albums: [Album]) {
-        print("Did fetch albums.")
+        logIN()
         self.printAlbums(albums)
         self.albums = albums
-        print("Reload albums collection view.")
+        logDebug("Reload albums collection view.")
         self.collectionView.reloadData()
+        pageControl.numberOfPages = (self.collectionView.collectionViewLayout as! PageHorizontalLayout).pageCount
         if self.albums.count == 0 {
             self.state = .noPhotos
         }
+        logOUT()
     }
     
     fileprivate var isReady: Bool {
@@ -250,7 +283,7 @@ class AlbumsViewController: UIViewController {
         }
         set (newState) {
             guard newState != _state else { return }
-            print("Change state from '\(_state)' to '\(newState)'.")
+            logDebug("Change state from '\(_state)' to '\(newState)'.")
             let oldState = _state
             _state = newState
             switch newState {
@@ -258,12 +291,14 @@ class AlbumsViewController: UIViewController {
                 assert(oldState == .setup)
                 collectionView.isHidden = false
                 noPhotosLabel.isHidden = true
+                pageControl.numberOfPages = 0
                 activityIndicator.alpha = 1
                 activityIndicator.startAnimating()
                 fetchAlbums()
                 break
             case .ready:
                 assert(oldState == .fetching)
+                self.collectionView.collectionViewLayout.invalidateLayout()
                 activityIndicator.stopAnimating()
                 activityIndicator.alpha = 0
                 break
@@ -290,12 +325,18 @@ class AlbumsViewController: UIViewController {
     
     private func printAlbums(_ albums: [Album]) {
         for a in albums {
-            print("\(a.title), \(a.photos.count) photos")
+            logDebug("\(a.title), \(a.photos.count) photos")
         }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+    
+    @IBAction func changePage(_ sender: Any) {
+        var frame: CGRect = self.collectionView.frame
+        frame.origin = CGPoint(x: self.collectionView.frame.size.width * CGFloat(self.pageControl.currentPage), y: 0)
+        self.collectionView.scrollRectToVisible(frame, animated: true)
     }
 }
 
@@ -306,7 +347,7 @@ extension AlbumsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print("Request cell for item at index path: \(indexPath.row)")
+        logDebug("Request cell for item at index path: \(indexPath.row)")
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellReuseID, for: indexPath) as! AlbumCell
         let album = self.albums[indexPath.row]
         cell.titleLabel.text = album.title
@@ -324,10 +365,10 @@ extension AlbumsViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 requestOptions.resizeMode = PHImageRequestOptionsResizeMode.fast
                 requestOptions.deliveryMode = PHImageRequestOptionsDeliveryMode.opportunistic
                 requestOptions.isSynchronous = true
-                print("Request image '\(idx)' (\(album.photos.count) photos) for album '\(album.title)'")
+                logDebug("Request image '\(idx)' (\(album.photos.count) photos) for album '\(album.title)'")
                 DispatchQueue.global().async {
                     PHImageManager.default().requestImage(for: asset, targetSize: self.thumbnailSize, contentMode: PHImageContentMode.aspectFit, options: requestOptions, resultHandler: { (pickedImage, info) in
-                        print("Did pick image '\(idx)' (\(album.photos.count) photos) for album '\(album.title)'")
+                        logDebug("Did pick image '\(idx)' (\(album.photos.count) photos) for album '\(album.title)'")
                         if let img = pickedImage {
                             print("")
                             if cell.titleLabel.text == album.title {
@@ -345,10 +386,10 @@ extension AlbumsViewController: UICollectionViewDelegate, UICollectionViewDataSo
                                     }
                                 }
                             } else {
-                                print("Album changed for this cell, do nothing.")
+                                logDebug("Album changed for this cell, do nothing.")
                             }
                         } else {
-                            print("Couldn't load image!")
+                            logError("Couldn't load image!")
                             // TODO: Load dummy image instead
                         }
                     })
@@ -375,45 +416,6 @@ extension AlbumsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
 }
 
-extension AlbumsViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if Device.IS_IPAD {
-            return CGSize(width: 140.0, height: 180.0)
-        } else { // iPhone
-            return CGSize(width: 80.0, height: 120.0)
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        if Device.IS_IPAD {
-            return 50.0
-        } else { // iPhone
-            return 30.0
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        if Device.IS_IPAD {
-            return 50.0
-        } else { // iPhone
-            return 30.0
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
-        if Device.IS_IPAD {
-            return UIEdgeInsets(top: 100.0, left: 80.0, bottom: 60.0, right: 80.0)
-        } else { // iPhone
-            return UIEdgeInsets(top: 30.0, left: 50.0, bottom: 30.0, right: 50.0)
-        }
-    }
-}
-
 extension AlbumsViewController: SettingsBarDelegate, TimePopoverDelegate, AnimationsPopoverDelegate {
     
     func settingsBar(_ bar: SettingsBar, didSelectTime value: Int) {
@@ -421,12 +423,14 @@ extension AlbumsViewController: SettingsBarDelegate, TimePopoverDelegate, Animat
         vc.delegate = self
         vc.modalPresentationStyle = .popover
         vc.preferredContentSize = CGSize(width: 180, height: 200)
-        present(vc, animated: true, completion: nil)
+        
         let popover = vc.popoverPresentationController
         popover?.backgroundColor = vc.view.backgroundColor
         popover?.permittedArrowDirections = .up
         popover?.sourceView = settingsBar
         popover?.sourceRect = settingsBar.timeButton.frame.insetBy(dx: 0, dy: -15)
+        
+        present(vc, animated: true, completion: nil)
     }
     
     func settingsBar(_ bar: SettingsBar, didSelectAnimation value: PhotoAnimation) {
@@ -435,12 +439,14 @@ extension AlbumsViewController: SettingsBarDelegate, TimePopoverDelegate, Animat
         vc.modalPresentationStyle = .popover
         vc.loadViewIfNeeded()
         vc.preferredContentSize = CGSize(width: 180, height: 274)
-        present(vc, animated: true, completion: nil)
+        
         let popover = vc.popoverPresentationController
         popover?.backgroundColor = vc.view.backgroundColor
         popover?.permittedArrowDirections = .up
         popover?.sourceView = settingsBar
         popover?.sourceRect = settingsBar.animationButton.frame.insetBy(dx: 0, dy: -15)
+        
+        present(vc, animated: true, completion: nil)
     }
     
     func settingsBar(_ bar: SettingsBar, didChangeIsRandom value: Bool) {
@@ -453,8 +459,32 @@ extension AlbumsViewController: SettingsBarDelegate, TimePopoverDelegate, Animat
     }
     
     func animationsPopover(_ popover: AnimationsPopoverController, didSelectAnimation animation: PhotoAnimation) {
-        settingsBar.animation = animation
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1, options: .curveEaseOut, animations: { [weak self] in
+            self?.settingsBar.animation = animation
+        }, completion: nil)
         Settings.animation = animation
         popover.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension AlbumsViewController: CollectionViewLayoutDelegate {
+    
+    var preferredCollectionViewFrame: CGRect {
+        return self.collectionViewFrame
+    }
+}
+
+extension AlbumsViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        var pageIndex: Int = 0
+        let offset: CGFloat = scrollView.contentOffset.x / scrollView.frame.size.width
+        
+        if CGFloat(pageControl.currentPage) <= offset {
+            pageIndex = lroundf(floorf(Float(offset)))
+        } else {
+            pageIndex = lroundf(ceilf(Float(offset)))
+        }
+        self.pageControl.currentPage = pageIndex
     }
 }

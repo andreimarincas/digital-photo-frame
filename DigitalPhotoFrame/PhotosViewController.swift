@@ -77,8 +77,10 @@ extension PhotoAnimation {
 
 class PhotosViewController: UIViewController {
     
-    @IBOutlet var imageView1: UIImageView!
-    @IBOutlet var imageView2: UIImageView!
+    @IBOutlet var backgroundImageView: UIImageView!
+    private var effectView: UIVisualEffectView!
+    @IBOutlet var imageView1: ImageViewWithBlurBackground!
+    @IBOutlet var imageView2: ImageViewWithBlurBackground!
     
     private var photos: [Photo] = []
     private var currentIndex: Int = 0
@@ -131,7 +133,18 @@ class PhotosViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let blur = UIBlurEffect(style: .dark)
+        let effectView = UIVisualEffectView(effect: blur)
+        let vibrancy = UIVibrancyEffect(blurEffect: blur)
+        effectView.effect = vibrancy
+        effectView.frame = self.backgroundImageView.bounds
+//        self.backgroundImageView.addSubview(effectView)
+        self.effectView = effectView
+        self.backgroundImageView.isHidden = true
+        
         loadImage(at: currentIndex, in: imageView1) {
+            self.backgroundImageView.image = self.imageView1.image
             if self.photos.count == 1 {
                 self.isReady = true
             }
@@ -153,6 +166,20 @@ class PhotosViewController: UIViewController {
         restartTimer()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateUI()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateUI()
+    }
+    
+    private func updateUI() {
+        self.effectView.frame = self.backgroundImageView.bounds
+    }
+    
     func restartTimer() {
         timer = Timer.scheduledTimer(timeInterval: displayDuration, target: self, selector: #selector(onTransition), userInfo: nil, repeats: true)
     }
@@ -162,12 +189,13 @@ class PhotosViewController: UIViewController {
         timer = nil
     }
     
-    private func loadImage(at index: Int, in imageView: UIImageView, completion: (() -> Void)?) {
+    private func loadImage(at index: Int, in imageView: ImageViewWithBlurBackground, completion: (() -> Void)?) {
         guard index >= 0 && index < photos.count else { return }
         let asset = photos[index].asset
         let requestOptions = PHImageRequestOptions()
         requestOptions.resizeMode = PHImageRequestOptionsResizeMode.exact
         requestOptions.deliveryMode = PHImageRequestOptionsDeliveryMode.highQualityFormat
+        imageView.image = nil
         DispatchQueue.global().async {
             PHImageManager.default().requestImage(for: asset!, targetSize: PHImageManagerMaximumSize, contentMode: PHImageContentMode.default, options: requestOptions, resultHandler: { (pickedImage, info) in
                 DispatchQueue.main.async { [weak self] in
@@ -202,7 +230,7 @@ class PhotosViewController: UIViewController {
         return transition
     }
     
-    private func getConstraint(for imageView: UIImageView, with attribute: NSLayoutAttribute) -> NSLayoutConstraint? {
+    private func getConstraint(for imageView: ImageViewWithBlurBackground, with attribute: NSLayoutAttribute) -> NSLayoutConstraint? {
         for constraint in self.view.constraints {
             if let firstItem = constraint.firstItem as? NSObject, firstItem == imageView {
                 if constraint.firstAttribute == attribute {
@@ -219,7 +247,7 @@ class PhotosViewController: UIViewController {
     }
     
     @objc private func onTransition() {
-        print("on transition")
+        logIN()
         guard photos.count > 1 else { return }
         if self.isRandom {
             self.currentIndex = (self.photoRandom!).next!
@@ -230,7 +258,7 @@ class PhotosViewController: UIViewController {
                 self.currentIndex = 0
             }
         }
-        let fromImageView, toImageView: UIImageView?
+        let fromImageView, toImageView: ImageViewWithBlurBackground?
         if self.imageView1.isHidden {
             fromImageView = self.imageView2
             toImageView = self.imageView1
@@ -241,27 +269,70 @@ class PhotosViewController: UIViewController {
         if self.animation != .none {
             let transition = self.nextTransition!
             if let uiViewTransition = UIViewAnimationOptions(transition: transition) {
-                let options: UIViewAnimationOptions = [.showHideTransitionViews, uiViewTransition, .curveEaseInOut]
+                let options: UIViewAnimationOptions = [.showHideTransitionViews, uiViewTransition, .curveEaseInOut, .allowUserInteraction]
+//                toImageView!.isHidden = false
+//                view.layoutIfNeeded()
+                
+//                let blur = UIBlurEffect(style: .dark)
+//                toImageView!.effectView.effect = blur
+//                let vibrancy = UIVibrancyEffect(blurEffect: toImageView!.effectView.effect as! UIBlurEffect)
+                
+//                UIView.beginAnimations(nil, context: nil)
+//                UIView.setAnimationDuration(self.transitionDuration)
+//                UIView.setAnimationCurve(.easeInOut)
+                
+//                let toImageViewCenterX = getConstraint(for: toImageView!, with: .centerX)
+//                let spacing: CGFloat = 50
+//                let offset = view.frame.width + spacing
+//                toImageViewCenterX?.constant = -offset
+//                toImageView!.isHidden = false
+//                view.bringSubview(toFront: toImageView!)
+//                view.layoutIfNeeded()
+//                toImageViewCenterX?.constant = 0
+//                view.layoutIfNeeded()
+                
                 UIView.transition(from: fromImageView!, to: toImageView!, duration: self.transitionDuration, options: options) { [weak self] finished in
                     guard let weakSelf = self else { return }
+                    
+//                    toImageView!.effectView.effect = vibrancy
+//                    weakSelf.backgroundImageView.image = toImageView!.image
+                    
                     weakSelf.view.bringSubview(toFront: toImageView!)
                     weakSelf.loadImage(at: weakSelf.currentIndex, in: fromImageView!, completion: nil)
                 }
+                
+//                UIView.transition(with: self.backgroundImageView, duration: self.transitionDuration, options: [.transitionCrossDissolve, .curveEaseInOut, .allowUserInteraction], animations: { [weak self] in
+//                    guard let weakSelf = self else { return }
+//                    weakSelf.backgroundImageView.image = toImageView!.image
+//                }, completion: nil)
+////                UIView.commitAnimations()
+                
+                
+//                UIView.animate(withDuration: self.transitionDuration, delay: 0, options: .curveEaseInOut, animations: { [weak self] in
+//                    guard let weakSelf = self else { return }
+//                    weakSelf.backgroundImageView.image = toImageView!.image
+//                }, completion: nil)
             } else {
                 // Custom transition
+//                UIView.transition(with: self.backgroundImageView, duration: self.transitionDuration, options: [.transitionCrossDissolve, .curveEaseInOut], animations: { [weak self] in
+//                    guard let weakSelf = self else { return }
+//                    weakSelf.backgroundImageView.image = toImageView!.image
+//                }, completion: nil)
                 performCustomTransition(transition, from: fromImageView!, to: toImageView!)
             }
             
         } else { // no animation
             self.view.bringSubview(toFront: toImageView!)
             toImageView!.isHidden = false
+//            self.backgroundImageView.image = toImageView!.image
             self.loadImage(at: self.currentIndex, in: fromImageView!, completion: nil)
             fromImageView!.isHidden = true
         }
+        logOUT()
     }
     
-    private func performCustomTransition(_ transition: Transition, from fromImageView: UIImageView, to toImageView: UIImageView) {
-        print("perform custom transition")
+    private func performCustomTransition(_ transition: Transition, from fromImageView: ImageViewWithBlurBackground, to toImageView: ImageViewWithBlurBackground) {
+        logIN()
         let spacing: CGFloat = 50
         let completion: (() -> Void) = { [weak self] in
             guard let weakSelf = self else { return }
@@ -352,9 +423,10 @@ class PhotosViewController: UIViewController {
             })
             break
         default:
-            print("what are you doing here?")
+            logError("what are you doing here?")
             break
         }
+        logOUT()
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -368,6 +440,7 @@ class PhotosViewController: UIViewController {
     }
     
     deinit {
-        print("deinit photos vc")
+        logIN()
+        logOUT()
     }
 }
