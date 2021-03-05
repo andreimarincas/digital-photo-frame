@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let bounds = UIScreen.main.bounds
         let window = UIWindow(frame: bounds)
+        window.backgroundColor = .black
         
         let vc = MainViewController(nibName: "MainViewController", bundle: nil)
         vc.view.frame = bounds

@@ -13,6 +13,9 @@ struct Album {
     var asset: PHAssetCollection!
     var photos: PHFetchResult<PHAsset>!
     var title: String {
+        if asset.assetCollectionType == .smartAlbum && asset.assetCollectionSubtype == .smartAlbumUserLibrary {
+            return String.localized("user_library_album_title")
+        }
         return asset.localizedTitle ?? ""
     }
     var isReversed: Bool {
@@ -32,15 +35,46 @@ struct Photo {
 class AlbumsViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet var settingsBar: SettingsBar!
+    @IBOutlet var settingsViewTop: NSLayoutConstraint!
     fileprivate let cellReuseID = "cellReuseID"
     fileprivate var albums: [Album] = []
-    fileprivate let thumbnailSize = CGSize(width: 120.0, height: 120.0)
     var photosVC: PhotosViewController?
+    var selectedIndexPath: IndexPath?
+    
+    var thumbnailSize: CGSize {
+        if Device.IS_IPAD {
+            return CGSize(width: 200.0, height: 200.0)
+        } else { // iPhone
+            return CGSize(width: 120.0, height: 120.0)
+        }
+    }
+    
+    var effectView: UIVisualEffectView!
+    var effectViewContainer: UIView!
+    
+    private func createBlurEffectView() {
+        let blur = UIBlurEffect(style: .dark)
+        let effectView = UIVisualEffectView(effect: blur)
+        let vibrancy = UIVibrancyEffect(blurEffect: blur)
+        effectView.effect = vibrancy
+        let effectViewContainer = UIView()
+        effectViewContainer.isUserInteractionEnabled = true
+        effectViewContainer.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        effectViewContainer.addSubview(effectView)
+        effectViewContainer.isHidden = true
+        effectView.alpha = 0
+        collectionView.addSubview(effectViewContainer)
+        self.effectView = effectView
+        self.effectViewContainer = effectViewContainer
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let nib = UINib(nibName: "AlbumCell", bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: cellReuseID)
+        
+        createBlurEffectView()
         
         let bgView = UIView()
         bgView.backgroundColor = .clear
@@ -49,6 +83,29 @@ class AlbumsViewController: UIViewController {
         collectionView.backgroundView = bgView
         
         setupPhotos()
+        
+        // Initialize settings
+        settingsBar.time = Settings.time
+        settingsBar.animation = Settings.animation
+        settingsBar.isRandom = Settings.isRandom
+        settingsBar.delegate = self
+        
+        collectionView.disableDelaysContentTouches()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateUI()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateUI()
+    }
+    
+    private func updateUI() {
+        effectViewContainer.frame = collectionView.bounds
+        effectView.frame = effectViewContainer.bounds
     }
     
     private func setupPhotos() {
@@ -110,9 +167,9 @@ class AlbumsViewController: UIViewController {
     
     @objc func didTapOutsideCells(_ gesture: UITapGestureRecognizer) {
         print("did tap outside cells")
-        if let photosVC = self.photosVC, let mainVC = parent as? MainViewController {
-            mainVC.resumePhotosViewController(photosVC)
-        }
+//        if let photosVC = self.photosVC, let mainVC = parent as? MainViewController {
+//            mainVC.resumePhotosViewController(photosVC)
+//        }
     }
 }
 
@@ -127,9 +184,9 @@ extension AlbumsViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let album = self.albums[indexPath.row]
         cell.titleLabel.text = album.title
         if album.photos.count == 1 {
-            cell.nrPhotosLabel.text = "1 photo"
+            cell.nrPhotosLabel.text = String.localized("albums_subtitle_one_photo")
         } else {
-            cell.nrPhotosLabel.text = "\(album.photos.count) photos"
+            cell.nrPhotosLabel.text = String.localized("albums_subtitle_nr_photos", album.photos.count)
         }
         for i in 0..<3 {
             let idx = album.isReversed ? (album.photos.count - 1 - i) : i
@@ -139,13 +196,20 @@ extension AlbumsViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 let requestOptions = PHImageRequestOptions()
                 requestOptions.resizeMode = PHImageRequestOptionsResizeMode.fast
                 requestOptions.deliveryMode = PHImageRequestOptionsDeliveryMode.opportunistic
+                requestOptions.isSynchronous = true
                 
                 DispatchQueue.global().async {
                     PHImageManager.default().requestImage(for: asset, targetSize: self.thumbnailSize, contentMode: PHImageContentMode.aspectFit, options: requestOptions, resultHandler: { (pickedImage, info) in
                         if let img = pickedImage {
                             if cell.titleLabel.text == album.title {
                                 DispatchQueue.main.async {
-                                    cell.imageView(at: 2 - i)!.image = img
+                                    if album.photos.count == 1 {
+                                        cell.middleImageView.image = img
+                                        cell.middleImageView.isHidden = false
+                                        cell.frontImageView.isHidden = true
+                                    } else {
+                                        cell.imageView(at: 2 - i)!.image = img
+                                    }
                                 }
                             }
                         }
@@ -162,6 +226,7 @@ extension AlbumsViewController: UICollectionViewDelegate, UICollectionViewDataSo
         if let _ = self.photosVC {
             self.photosVC = nil
         }
+        selectedIndexPath = indexPath
         let selectedAlbum = albums[indexPath.row]
         var photos: [Photo] = []
         for i in 0..<selectedAlbum.photos.count {
@@ -208,9 +273,54 @@ extension AlbumsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
         if Device.IS_IPAD {
-            return UIEdgeInsets(top: 80.0, left: 80.0, bottom: 80.0, right: 80.0)
+            return UIEdgeInsets(top: 100.0, left: 80.0, bottom: 60.0, right: 80.0)
         } else { // iPhone
             return UIEdgeInsets(top: 30.0, left: 50.0, bottom: 30.0, right: 50.0)
         }
+    }
+}
+
+extension AlbumsViewController: SettingsBarDelegate, TimePopoverDelegate, AnimationsPopoverDelegate {
+    
+    func settingsBar(_ bar: SettingsBar, didSelectTime value: Int) {
+        let vc = TimePopoverController(seconds: value)
+        vc.delegate = self
+        vc.modalPresentationStyle = .popover
+        vc.preferredContentSize = CGSize(width: 180, height: 200)
+        present(vc, animated: true, completion: nil)
+        let popover = vc.popoverPresentationController
+        popover?.backgroundColor = vc.view.backgroundColor
+        popover?.permittedArrowDirections = .up
+        popover?.sourceView = settingsBar
+        popover?.sourceRect = settingsBar.timeButton.frame.insetBy(dx: 0, dy: -15)
+    }
+    
+    func settingsBar(_ bar: SettingsBar, didSelectAnimation value: PhotoAnimation) {
+        let vc = AnimationsPopoverController(animation: value)
+        vc.delegate = self
+        vc.modalPresentationStyle = .popover
+        vc.loadViewIfNeeded()
+        vc.preferredContentSize = CGSize(width: 180, height: 230)
+        present(vc, animated: true, completion: nil)
+        let popover = vc.popoverPresentationController
+        popover?.backgroundColor = vc.view.backgroundColor
+        popover?.permittedArrowDirections = .up
+        popover?.sourceView = settingsBar
+        popover?.sourceRect = settingsBar.animationButton.frame.insetBy(dx: 0, dy: -15)
+    }
+    
+    func settingsBar(_ bar: SettingsBar, didChangeIsRandom value: Bool) {
+        Settings.isRandom = value
+    }
+    
+    func timePopover(_ popover: TimePopoverController, didChangeValue seconds: Int) {
+        settingsBar.time = seconds
+        Settings.time = seconds
+    }
+    
+    func animationsPopover(_ popover: AnimationsPopoverController, didSelectAnimation animation: PhotoAnimation) {
+        settingsBar.animation = animation
+        Settings.animation = animation
+        popover.dismiss(animated: true, completion: nil)
     }
 }

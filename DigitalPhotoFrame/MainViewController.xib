@@ -11,7 +11,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController" customModule="DigitalPhotoFrame" customModuleProvider="target">
             <connections>
-                <outlet property="activity" destination="2ON-Wy-HlY" id="2K7-kz-obG"/>
                 <outlet property="view" destination="iN0-l3-epB" id="yGH-Gq-aOq"/>
             </connections>
         </placeholder>
@@ -19,16 +18,7 @@
         <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <subviews>
-                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="2ON-Wy-HlY">
-                    <rect key="frame" x="502" y="374" width="20" height="20"/>
-                </activityIndicatorView>
-            </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstItem="2ON-Wy-HlY" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Dqu-bk-Ici"/>
-                <constraint firstItem="2ON-Wy-HlY" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="rFz-Wf-Vtr"/>
-            </constraints>
         </view>
     </objects>
 </document>

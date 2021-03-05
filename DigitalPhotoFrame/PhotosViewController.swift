@@ -15,10 +15,10 @@ class PhotosViewController: UIViewController {
     @IBOutlet var imageView2: UIImageView!
     
     var photos: [Photo] = []
+    var currentIndex: Int = 0
+    var timer: Timer?
     let displayDuration: TimeInterval = 5
     let transitionDuration: TimeInterval = 2
-    var currentIndex: Int = 0
-    var timer: Timer!
     let transitions: [UIViewAnimationOptions] = [.transitionCrossDissolve,
                                                  .transitionCurlUp, .transitionCurlDown,
                                                  .transitionFlipFromLeft, .transitionFlipFromRight, .transitionFlipFromTop, .transitionFlipFromBottom]
@@ -61,7 +61,7 @@ class PhotosViewController: UIViewController {
     }
     
     func stopTimer() {
-        timer.invalidate()
+        timer?.invalidate()
         timer = nil
     }
     

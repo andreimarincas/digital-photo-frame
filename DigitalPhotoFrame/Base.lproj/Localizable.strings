@@ -1,0 +1,31 @@
+/* 
+  Localizable.strings
+  DigitalPhotoFrame
+
+  Created by Andrei Marincas on 1/3/18.
+  Copyright © 2018 Andrei Marincas. All rights reserved.
+*/
+
+"user_library_album_title" = "All Photos";
+
+"albums_title" = "Albums";
+
+"settings_time_txt" = "Time:";
+"settings_animation_txt" = "Animation:";
+"settings_random_txt" = "Random:";
+
+"settings_animation_none_btn" = "NONE";
+"settings_animation_any_btn" = "ANY";
+"settings_animation_cross_dissolve_btn" = "FADE";
+"settings_animation_curl_btn" = "CURL";
+"settings_animation_flip_btn" = "FLIP";
+
+"settings_random_yes_btn" = "YES";
+"settings_random_no_btn" = "NO";
+
+"settings_nr_seconds" = "%d seconds";
+"settings_one_minute" = "1 minute";
+"settings_nr_minutes" = "%d minutes";
+
+"albums_subtitle_one_photo" = "1 photo";
+"albums_subtitle_nr_photos" = "%d photos";

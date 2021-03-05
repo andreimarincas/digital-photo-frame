@@ -19,47 +19,47 @@
                     <rect key="frame" x="0.0" y="0.0" width="331" height="340"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ngo-7A-iSV">
-                            <rect key="frame" x="0.0" y="0.0" width="331" height="301"/>
+                            <rect key="frame" x="0.0" y="0.0" width="331" height="296"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xf1-Tg-CIZ" userLabel="Back Image View">
-                                    <rect key="frame" x="12" y="12" width="319" height="289"/>
+                                    <rect key="frame" x="14" y="14" width="317" height="282"/>
                                 </imageView>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="e0a-d9-VXH" userLabel="Middle Image View">
-                                    <rect key="frame" x="6" y="6" width="319" height="289"/>
+                                    <rect key="frame" x="7" y="7" width="317" height="282"/>
                                 </imageView>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nk7-a0-Pie" userLabel="Front Image View">
-                                    <rect key="frame" x="0.0" y="0.0" width="319" height="289"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="317" height="282"/>
                                 </imageView>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstItem="e0a-d9-VXH" firstAttribute="leading" secondItem="ngo-7A-iSV" secondAttribute="leading" constant="6" id="8io-0Q-Lwg"/>
+                                <constraint firstItem="e0a-d9-VXH" firstAttribute="leading" secondItem="ngo-7A-iSV" secondAttribute="leading" constant="7" id="8io-0Q-Lwg"/>
                                 <constraint firstItem="Nk7-a0-Pie" firstAttribute="leading" secondItem="ngo-7A-iSV" secondAttribute="leading" id="GcU-GL-f98"/>
-                                <constraint firstAttribute="trailing" secondItem="e0a-d9-VXH" secondAttribute="trailing" constant="6" id="NK5-cC-pOv"/>
+                                <constraint firstAttribute="trailing" secondItem="e0a-d9-VXH" secondAttribute="trailing" constant="7" id="NK5-cC-pOv"/>
                                 <constraint firstAttribute="bottom" secondItem="xf1-Tg-CIZ" secondAttribute="bottom" id="Qj4-kn-jJY"/>
-                                <constraint firstItem="xf1-Tg-CIZ" firstAttribute="top" secondItem="ngo-7A-iSV" secondAttribute="top" constant="12" id="VEq-qt-6hz"/>
-                                <constraint firstItem="e0a-d9-VXH" firstAttribute="top" secondItem="ngo-7A-iSV" secondAttribute="top" constant="6" id="dGM-gJ-uiE"/>
+                                <constraint firstItem="xf1-Tg-CIZ" firstAttribute="top" secondItem="ngo-7A-iSV" secondAttribute="top" constant="14" id="VEq-qt-6hz"/>
+                                <constraint firstItem="e0a-d9-VXH" firstAttribute="top" secondItem="ngo-7A-iSV" secondAttribute="top" constant="7" id="dGM-gJ-uiE"/>
                                 <constraint firstAttribute="trailing" secondItem="xf1-Tg-CIZ" secondAttribute="trailing" id="g7Y-dR-fhb"/>
-                                <constraint firstAttribute="bottom" secondItem="Nk7-a0-Pie" secondAttribute="bottom" constant="12" id="mRT-J6-V7q"/>
-                                <constraint firstAttribute="bottom" secondItem="e0a-d9-VXH" secondAttribute="bottom" constant="6" id="nJm-X3-xdm"/>
-                                <constraint firstAttribute="trailing" secondItem="Nk7-a0-Pie" secondAttribute="trailing" constant="12" id="nNR-J0-HoM"/>
+                                <constraint firstAttribute="bottom" secondItem="Nk7-a0-Pie" secondAttribute="bottom" constant="14" id="mRT-J6-V7q"/>
+                                <constraint firstAttribute="bottom" secondItem="e0a-d9-VXH" secondAttribute="bottom" constant="7" id="nJm-X3-xdm"/>
+                                <constraint firstAttribute="trailing" secondItem="Nk7-a0-Pie" secondAttribute="trailing" constant="14" id="nNR-J0-HoM"/>
                                 <constraint firstItem="Nk7-a0-Pie" firstAttribute="top" secondItem="ngo-7A-iSV" secondAttribute="top" id="t6D-2p-oym"/>
-                                <constraint firstItem="xf1-Tg-CIZ" firstAttribute="leading" secondItem="ngo-7A-iSV" secondAttribute="leading" constant="12" id="zNA-aJ-dcA"/>
+                                <constraint firstItem="xf1-Tg-CIZ" firstAttribute="leading" secondItem="ngo-7A-iSV" secondAttribute="leading" constant="14" id="zNA-aJ-dcA"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j6Z-qE-Tvb" userLabel="Separator View">
-                            <rect key="frame" x="0.0" y="301" width="331" height="4"/>
+                            <rect key="frame" x="0.0" y="296" width="331" height="4"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="4" id="wKE-yp-eDp"/>
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Trip to Spain_" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jdo-uU-qd3">
-                            <rect key="frame" x="0.0" y="305" width="331" height="20"/>
+                            <rect key="frame" x="0.0" y="300" width="331" height="25"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="20" id="nqQ-EP-AxA"/>
+                                <constraint firstAttribute="height" constant="25" id="nqQ-EP-AxA"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -69,7 +69,7 @@
                                 <constraint firstAttribute="height" constant="15" id="aBf-a6-0jg"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <color key="textColor" red="0.62054896262025583" green="0.62054896262025583" blue="0.62054896262025583" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="textColor" red="0.41843594448554089" green="0.41843594448554089" blue="0.41843594448554089" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
