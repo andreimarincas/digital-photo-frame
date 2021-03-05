@@ -8,7 +8,6 @@
 
 import UIKit
 import Photos
-import AVFoundation
 
 struct Album {
     var asset: PHAssetCollection!
@@ -158,6 +157,7 @@ class AlbumsViewController: UIViewController {
     }
     
     private func updateUI() {
+        self.collectionView.frame = self.collectionViewFrame
         let contentRect = CGRect(origin: .zero, size: self.collectionView.contentSize)
         effectViewContainer.frame = contentRect.insetBy(dx: 0, dy: -64)
         effectView.frame = effectViewContainer.bounds

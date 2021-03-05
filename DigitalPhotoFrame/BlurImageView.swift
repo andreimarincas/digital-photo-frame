@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import GPUImage
+//import GPUImage
 
 class BlurImageView: UIView {
     
