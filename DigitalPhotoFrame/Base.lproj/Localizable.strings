@@ -12,7 +12,7 @@
 
 "settings_time_txt" = "Time:";
 "settings_animation_txt" = "Animation:";
-"settings_random_txt" = "Random:";
+"settings_random_txt" = "Shuffle:";
 
 "settings_animation_none_btn" = "NONE";
 "settings_animation_any_btn" = "ANY";

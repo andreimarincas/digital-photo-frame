@@ -77,10 +77,8 @@ extension PhotoAnimation {
 
 class PhotosViewController: UIViewController {
     
-    @IBOutlet var backgroundImageView: UIImageView!
-    private var effectView: UIVisualEffectView!
-    @IBOutlet var imageView1: ImageViewWithBlurBackground!
-    @IBOutlet var imageView2: ImageViewWithBlurBackground!
+    @IBOutlet var imageView1: BlurImageView!
+    @IBOutlet var imageView2: BlurImageView!
     
     private var photos: [Photo] = []
     private var currentIndex: Int = 0
@@ -133,18 +131,8 @@ class PhotosViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let blur = UIBlurEffect(style: .dark)
-        let effectView = UIVisualEffectView(effect: blur)
-        let vibrancy = UIVibrancyEffect(blurEffect: blur)
-        effectView.effect = vibrancy
-        effectView.frame = self.backgroundImageView.bounds
-//        self.backgroundImageView.addSubview(effectView)
-        self.effectView = effectView
-        self.backgroundImageView.isHidden = true
-        
+        // Pre-load images
         loadImage(at: currentIndex, in: imageView1) {
-            self.backgroundImageView.image = self.imageView1.image
             if self.photos.count == 1 {
                 self.isReady = true
             }
@@ -166,20 +154,6 @@ class PhotosViewController: UIViewController {
         restartTimer()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        updateUI()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        updateUI()
-    }
-    
-    private func updateUI() {
-        self.effectView.frame = self.backgroundImageView.bounds
-    }
-    
     func restartTimer() {
         timer = Timer.scheduledTimer(timeInterval: displayDuration, target: self, selector: #selector(onTransition), userInfo: nil, repeats: true)
     }
@@ -189,7 +163,7 @@ class PhotosViewController: UIViewController {
         timer = nil
     }
     
-    private func loadImage(at index: Int, in imageView: ImageViewWithBlurBackground, completion: (() -> Void)?) {
+    private func loadImage(at index: Int, in imageView: BlurImageView, completion: (() -> Void)?) {
         guard index >= 0 && index < photos.count else { return }
         let asset = photos[index].asset
         let requestOptions = PHImageRequestOptions()
@@ -230,7 +204,7 @@ class PhotosViewController: UIViewController {
         return transition
     }
     
-    private func getConstraint(for imageView: ImageViewWithBlurBackground, with attribute: NSLayoutAttribute) -> NSLayoutConstraint? {
+    private func getConstraint(for imageView: BlurImageView, with attribute: NSLayoutAttribute) -> NSLayoutConstraint? {
         for constraint in self.view.constraints {
             if let firstItem = constraint.firstItem as? NSObject, firstItem == imageView {
                 if constraint.firstAttribute == attribute {
@@ -258,7 +232,7 @@ class PhotosViewController: UIViewController {
                 self.currentIndex = 0
             }
         }
-        let fromImageView, toImageView: ImageViewWithBlurBackground?
+        let fromImageView, toImageView: BlurImageView?
         if self.imageView1.isHidden {
             fromImageView = self.imageView2
             toImageView = self.imageView1
@@ -269,69 +243,29 @@ class PhotosViewController: UIViewController {
         if self.animation != .none {
             let transition = self.nextTransition!
             if let uiViewTransition = UIViewAnimationOptions(transition: transition) {
-                let options: UIViewAnimationOptions = [.showHideTransitionViews, uiViewTransition, .curveEaseInOut, .allowUserInteraction]
-//                toImageView!.isHidden = false
-//                view.layoutIfNeeded()
-                
-//                let blur = UIBlurEffect(style: .dark)
-//                toImageView!.effectView.effect = blur
-//                let vibrancy = UIVibrancyEffect(blurEffect: toImageView!.effectView.effect as! UIBlurEffect)
-                
-//                UIView.beginAnimations(nil, context: nil)
-//                UIView.setAnimationDuration(self.transitionDuration)
-//                UIView.setAnimationCurve(.easeInOut)
-                
-//                let toImageViewCenterX = getConstraint(for: toImageView!, with: .centerX)
-//                let spacing: CGFloat = 50
-//                let offset = view.frame.width + spacing
-//                toImageViewCenterX?.constant = -offset
-//                toImageView!.isHidden = false
-//                view.bringSubview(toFront: toImageView!)
-//                view.layoutIfNeeded()
-//                toImageViewCenterX?.constant = 0
-//                view.layoutIfNeeded()
-                
+                // Animate using UIView's built-in transitions
+                let options: UIViewAnimationOptions = [.showHideTransitionViews, uiViewTransition, .curveEaseInOut]
                 UIView.transition(from: fromImageView!, to: toImageView!, duration: self.transitionDuration, options: options) { [weak self] finished in
                     guard let weakSelf = self else { return }
-                    
-//                    toImageView!.effectView.effect = vibrancy
-//                    weakSelf.backgroundImageView.image = toImageView!.image
-                    
                     weakSelf.view.bringSubview(toFront: toImageView!)
                     weakSelf.loadImage(at: weakSelf.currentIndex, in: fromImageView!, completion: nil)
                 }
-                
-//                UIView.transition(with: self.backgroundImageView, duration: self.transitionDuration, options: [.transitionCrossDissolve, .curveEaseInOut, .allowUserInteraction], animations: { [weak self] in
-//                    guard let weakSelf = self else { return }
-//                    weakSelf.backgroundImageView.image = toImageView!.image
-//                }, completion: nil)
-////                UIView.commitAnimations()
-                
-                
-//                UIView.animate(withDuration: self.transitionDuration, delay: 0, options: .curveEaseInOut, animations: { [weak self] in
-//                    guard let weakSelf = self else { return }
-//                    weakSelf.backgroundImageView.image = toImageView!.image
-//                }, completion: nil)
             } else {
                 // Custom transition
-//                UIView.transition(with: self.backgroundImageView, duration: self.transitionDuration, options: [.transitionCrossDissolve, .curveEaseInOut], animations: { [weak self] in
-//                    guard let weakSelf = self else { return }
-//                    weakSelf.backgroundImageView.image = toImageView!.image
-//                }, completion: nil)
                 performCustomTransition(transition, from: fromImageView!, to: toImageView!)
             }
             
-        } else { // no animation
+        } else {
+            // No animation, change the image instantly.
             self.view.bringSubview(toFront: toImageView!)
             toImageView!.isHidden = false
-//            self.backgroundImageView.image = toImageView!.image
             self.loadImage(at: self.currentIndex, in: fromImageView!, completion: nil)
             fromImageView!.isHidden = true
         }
         logOUT()
     }
     
-    private func performCustomTransition(_ transition: Transition, from fromImageView: ImageViewWithBlurBackground, to toImageView: ImageViewWithBlurBackground) {
+    private func performCustomTransition(_ transition: Transition, from fromImageView: BlurImageView, to toImageView: BlurImageView) {
         logIN()
         let spacing: CGFloat = 50
         let completion: (() -> Void) = { [weak self] in
@@ -423,7 +357,7 @@ class PhotosViewController: UIViewController {
             })
             break
         default:
-            logError("what are you doing here?")
+            logWarning("What are you doing here?")
             break
         }
         logOUT()
@@ -439,8 +373,5 @@ class PhotosViewController: UIViewController {
         mainVC.returnToAlbums(animated: true)
     }
     
-    deinit {
-        logIN()
-        logOUT()
-    }
+    deinit { logIN(); logOUT() }
 }

@@ -17,8 +17,14 @@ class TimePopoverController: UIViewController {
     
     @IBOutlet var picker: UIPickerView!
     
-    fileprivate let values: [Int] = [5, 10, 15, 20, 25, 30, 45, 60, 120] // animation time in seconds
+    fileprivate let values: [Int] = [5, 10, 15, 20, 25, 30, 45, 60, 120] // Animation time in seconds
     fileprivate var currentIndex: Int
+    
+    private var selectionLineTop: UIView!
+    private var selectionLineBottom: UIView!
+    private let selectionLineThickness: CGFloat = 0.5
+    
+    fileprivate let rowHeight: CGFloat = 30
     
     weak var delegate: TimePopoverDelegate?
     
@@ -34,31 +40,40 @@ class TimePopoverController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Color.mineShaft
-//        view.backgroundColor = UIColor(white: 0.15, alpha: 1)
-//        view.layer.shadowColor = UIColor.red.cgColor
-//        view.layer.shadowRadius = 1
-//        view.layer.shadowOpacity = 1
-//        view.layer.masksToBounds = false
-        picker.selectRow(currentIndex, inComponent: 0, animated: false)
+        
+        selectionLineTop = UIView()
+        selectionLineTop.backgroundColor = Color.mineShaftLight
+        self.picker.addSubview(selectionLineTop)
+        
+        selectionLineBottom = UIView()
+        selectionLineBottom.backgroundColor = Color.mineShaftLight
+        self.picker.addSubview(selectionLineBottom)
     }
     
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        view.layer.shadowPath = CGPath(rect: view.bounds, transform: nil)
-////        view.superview?.layer.shadowColor = UIColor.green.cgColor
-////        view.superview?.layer.masksToBounds = false
-////        view.superview?.superview?.layer.shadowColor = UIColor.green.cgColor
-//        for subview in (view.superview?.subviews)! {
-//            subview.layer.shadowColor = UIColor.green.cgColor
-//        }
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        picker.reloadAllComponents()
+        picker.selectRow(currentIndex, inComponent: 0, animated: true)
+        updateUI()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateUI()
+    }
+    
+    private func updateUI() {
+        let centerY = self.picker.frame.size.height / 2
+        self.selectionLineTop.frame = CGRect(x: 0, y: centerY - self.rowHeight / 2 - 1.5, width: self.picker.frame.size.width, height: selectionLineThickness)
+        self.selectionLineBottom.frame = CGRect(x: 0, y: centerY + self.rowHeight / 2 + 1, width: self.picker.frame.size.width, height: selectionLineThickness)
+    }
     
     func formatTime(_ seconds: Int) -> String {
         var res = ""
         if seconds < 60 {
             res = String.localized("settings_nr_seconds", seconds % 60)
         } else if seconds == 60 {
-            res = String.localized("settings_one_minute") //"1 minute"
+            res = String.localized("settings_one_minute") // "1 minute"
         } else { // seconds > 60
             res = String.localized("settings_nr_minutes", seconds / 60)
         }
@@ -89,11 +104,11 @@ extension TimePopoverController: UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return 30
+        return self.rowHeight
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        currentIndex = row
-        delegate?.timePopover(self, didChangeValue: values[currentIndex])
+        self.currentIndex = row
+        self.delegate?.timePopover(self, didChangeValue: values[currentIndex])
     }
 }

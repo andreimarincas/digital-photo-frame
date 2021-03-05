@@ -117,6 +117,7 @@ class AnimationsPopoverController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Color.mineShaft
+        tableView.separatorColor = Color.mineShaftLight
         tableView.register(Cell.self, forCellReuseIdentifier: cellReuseID)
         tableView.reloadData()
         tableViewHeight.constant = tableView.contentSize.height
@@ -142,13 +143,6 @@ extension AnimationsPopoverController: UITableViewDelegate, UITableViewDataSourc
         }
         let anim = animations[indexPath.row]
         cell?.textLabel?.text = anim.localizedName
-//        if anim == .any || anim == .none {
-//            cell?.textLabel?.textColor = Color.chileanFire
-//            cell?.tintColor = Color.chileanFire
-//        } else {
-//            cell?.textLabel?.textColor = Color.chileanFire
-//            cell?.tintColor = Color.chileanFire
-//        }
         cell?.textLabel?.textColor = Color.blueRibbon
         cell?.tintColor = Color.blueRibbon
         return cell!

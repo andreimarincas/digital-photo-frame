@@ -11,7 +11,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PhotosViewController" customModule="DigitalPhotoFrame" customModuleProvider="target">
             <connections>
-                <outlet property="backgroundImageView" destination="jKS-7R-aPs" id="ySO-KB-Sui"/>
                 <outlet property="imageView1" destination="ULd-li-SeC" id="Hnf-Oj-gic"/>
                 <outlet property="imageView2" destination="DYi-F3-fiI" id="bk5-oN-twE"/>
                 <outlet property="view" destination="iN0-l3-epB" id="s4H-om-1hn"/>
@@ -22,15 +21,11 @@
             <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jKS-7R-aPs">
-                    <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                </imageView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ULd-li-SeC" customClass="ImageViewWithBlurBackground" customModule="DigitalPhotoFrame" customModuleProvider="target">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ULd-li-SeC" customClass="BlurImageView" customModule="DigitalPhotoFrame" customModuleProvider="target">
                     <rect key="frame" x="-0.5" y="-0.5" width="667" height="375"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DYi-F3-fiI" customClass="ImageViewWithBlurBackground" customModule="DigitalPhotoFrame" customModuleProvider="target">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DYi-F3-fiI" customClass="BlurImageView" customModule="DigitalPhotoFrame" customModuleProvider="target">
                     <rect key="frame" x="-0.5" y="-0.5" width="667" height="375"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
@@ -39,17 +34,11 @@
             <gestureRecognizers/>
             <constraints>
                 <constraint firstItem="ULd-li-SeC" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="6iU-QF-MWK"/>
-                <constraint firstItem="jKS-7R-aPs" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="DtR-AO-37c"/>
                 <constraint firstItem="DYi-F3-fiI" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="KvA-97-JoV"/>
-                <constraint firstItem="jKS-7R-aPs" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="LSP-iR-det"/>
-                <constraint firstItem="jKS-7R-aPs" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="TWh-H7-RB7"/>
                 <constraint firstItem="DYi-F3-fiI" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="VE4-eK-4f6"/>
                 <constraint firstItem="DYi-F3-fiI" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="ceu-2Q-zeJ"/>
-                <constraint firstAttribute="trailing" secondItem="jKS-7R-aPs" secondAttribute="trailing" id="cv8-hP-yJV"/>
                 <constraint firstItem="ULd-li-SeC" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="dNq-jM-AHP"/>
-                <constraint firstAttribute="bottom" secondItem="jKS-7R-aPs" secondAttribute="bottom" id="iaB-qe-Hj0"/>
                 <constraint firstItem="ULd-li-SeC" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="mzy-qM-Ani"/>
-                <constraint firstItem="jKS-7R-aPs" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="qFo-vz-uIb"/>
                 <constraint firstItem="ULd-li-SeC" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="t2E-TO-r02"/>
                 <constraint firstItem="DYi-F3-fiI" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="ucE-B5-jTG"/>
             </constraints>

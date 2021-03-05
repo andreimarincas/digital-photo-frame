@@ -76,7 +76,6 @@ class AlbumsViewController: UIViewController {
         let top: CGFloat = 64
         let viewSize = self.view.frame.size
         return CGRect(x: 0, y: top, width: viewSize.max, height: viewSize.min - top)
-//        return CGRect(x: 0, y: top, width: viewSize.width, height: viewSize.height - top)
     }
     
     private var _collectionView: UICollectionView?
@@ -422,7 +421,7 @@ extension AlbumsViewController: SettingsBarDelegate, TimePopoverDelegate, Animat
         let vc = TimePopoverController(seconds: value)
         vc.delegate = self
         vc.modalPresentationStyle = .popover
-        vc.preferredContentSize = CGSize(width: 180, height: 200)
+        vc.preferredContentSize = CGSize(width: 160, height: 200)
         
         let popover = vc.popoverPresentationController
         popover?.backgroundColor = vc.view.backgroundColor
@@ -438,7 +437,7 @@ extension AlbumsViewController: SettingsBarDelegate, TimePopoverDelegate, Animat
         vc.delegate = self
         vc.modalPresentationStyle = .popover
         vc.loadViewIfNeeded()
-        vc.preferredContentSize = CGSize(width: 180, height: 274)
+        vc.preferredContentSize = CGSize(width: 160, height: 274)
         
         let popover = vc.popoverPresentationController
         popover?.backgroundColor = vc.view.backgroundColor

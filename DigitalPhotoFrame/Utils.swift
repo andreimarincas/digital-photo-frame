@@ -62,10 +62,6 @@ extension CGSize {
     var max: CGFloat {
         return width > height ? width : height
     }
-    
-//    var integral: CGSize {
-//        return CGSize(width: Int(self.width), height: Int(self.height))
-//    }
 }
 
 extension UIImage {

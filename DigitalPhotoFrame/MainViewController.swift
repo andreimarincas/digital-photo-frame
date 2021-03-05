@@ -144,7 +144,6 @@ extension MainViewController: AlbumsViewControllerDelegate {
             albumsVC.collectionView.alpha = 0.0
             break
         case .ready:
-//            albumsVC.collectionView.collectionViewLayout.invalidateLayout()
             UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 1.8, initialSpringVelocity: 1, options: .curveEaseOut, animations: { [weak self] in
                 guard let weakSelf = self else { return }
                 weakSelf.albumsVC.collectionView.transform = CGAffineTransform.identity
