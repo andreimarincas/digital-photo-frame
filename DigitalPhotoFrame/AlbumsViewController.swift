@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import AVFoundation
 
 struct Album {
     var asset: PHAssetCollection!
@@ -32,15 +33,32 @@ struct Photo {
     var asset: PHAsset!
 }
 
+protocol AlbumsViewControllerDelegate: class {
+    
+    func albumsViewController(_ albumsVC: AlbumsViewController, didChangeState newState: AlbumsViewController.State)
+}
+
 class AlbumsViewController: UIViewController {
+    
+    enum State: String {
+        case setup
+        case fetching
+        case ready
+        case noPhotos
+        case permissionDenied
+    }
     
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var settingsBar: SettingsBar!
     @IBOutlet var settingsViewTop: NSLayoutConstraint!
+    @IBOutlet var noPhotosLabel: UILabel!
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    
     fileprivate let cellReuseID = "cellReuseID"
     fileprivate var albums: [Album] = []
-    var photosVC: PhotosViewController?
     var selectedIndexPath: IndexPath?
+    
+    weak var delegate: AlbumsViewControllerDelegate?
     
     var thumbnailSize: CGSize {
         if Device.IS_IPAD {
@@ -52,6 +70,50 @@ class AlbumsViewController: UIViewController {
     
     var effectView: UIVisualEffectView!
     var effectViewContainer: UIView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let nib = UINib(nibName: "AlbumCell", bundle: nil)
+        collectionView.register(nib, forCellWithReuseIdentifier: cellReuseID)
+        collectionView.disableDelaysContentTouches()
+        
+        createBlurEffectView()
+        
+        // Initialize settings
+        settingsBar.time = Settings.time
+        settingsBar.animation = Settings.animation
+        settingsBar.isRandom = Settings.isRandom
+        settingsBar.delegate = self
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateUI()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        DispatchQueue.main.async {
+            self.handleAuthorization()
+        }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateUI()
+    }
+    
+    @objc func appMovedToBackground() {
+        print("Albums: App moved to background.")
+        if let presentedVC = self.presentedViewController {
+            if presentedVC is TimePopoverController || presentedVC is AnimationsPopoverController {
+                presentedVC.dismiss(animated: false, completion: nil)
+            }
+        }
+    }
     
     private func createBlurEffectView() {
         let blur = UIBlurEffect(style: .dark)
@@ -69,46 +131,45 @@ class AlbumsViewController: UIViewController {
         self.effectViewContainer = effectViewContainer
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let nib = UINib(nibName: "AlbumCell", bundle: nil)
-        collectionView.register(nib, forCellWithReuseIdentifier: cellReuseID)
-        
-        createBlurEffectView()
-        
-        let bgView = UIView()
-        bgView.backgroundColor = .clear
-        let tapGr = UITapGestureRecognizer(target: self, action: #selector(didTapOutsideCells(_:)))
-        bgView.addGestureRecognizer(tapGr)
-        collectionView.backgroundView = bgView
-        
-        setupPhotos()
-        
-        // Initialize settings
-        settingsBar.time = Settings.time
-        settingsBar.animation = Settings.animation
-        settingsBar.isRandom = Settings.isRandom
-        settingsBar.delegate = self
-        
-        collectionView.disableDelaysContentTouches()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        updateUI()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        updateUI()
-    }
-    
     private func updateUI() {
         effectViewContainer.frame = collectionView.bounds
         effectView.frame = effectViewContainer.bounds
     }
     
-    private func setupPhotos() {
+    private func handleAuthorization() {
+        let auth = PHPhotoLibrary.authorizationStatus()
+        print("Authorization status: \(auth.rawValue)")
+        switch auth {
+        case .authorized:
+            state = .fetching
+            break
+        case .denied, .restricted:
+            state = .permissionDenied
+            break
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization({ (auth) in
+                DispatchQueue.main.async { [weak self] in
+                    guard let weakSelf = self else { return }
+                    print("auth: \(auth.rawValue)")
+                    switch auth {
+                    case .authorized:
+                        weakSelf.state = .fetching
+                        break
+                    case .denied, .restricted:
+                        weakSelf.state = .permissionDenied
+                        break
+                    default:
+                        break
+                    }
+                }
+            })
+            break
+        }
+    }
+    
+    private func fetchAlbums() {
+        print("Fetch albums.")
+        PHPhotoLibrary.authorizationStatus()
         let fetchOptions = PHFetchOptions()
         let smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: fetchOptions)
         let topLevelfetchOptions = PHFetchOptions()
@@ -116,6 +177,7 @@ class AlbumsViewController: UIViewController {
         let allAlbums = [topLevelUserCollections, smartAlbums]
         var userLibrary: Album?
         var recentlyAdded: Album?
+        var albums = [Album]()
         for i in 0 ..< allAlbums.count {
             let result = allAlbums[i] as! PHFetchResult<PHCollection>
             result.enumerateObjects(using: { (asset, index, stop) -> Void in
@@ -130,32 +192,103 @@ class AlbumsViewController: UIViewController {
                         } else if a.assetCollectionSubtype == .smartAlbumRecentlyAdded {
                             recentlyAdded = obj
                         } else {
-                            self.albums.append(obj)
+                            albums.append(obj)
                         }
                     }
                 }
                 if i == (allAlbums.count - 1) && index == (result.count - 1) {
-                    self.albums.sort(by: { (a, b) -> Bool in
+                    albums.sort(by: { (a, b) -> Bool in
                         return a.title < b.title
                     })
                     if let recentlyAdded = recentlyAdded {
-                        self.albums.insert(recentlyAdded, at: 0)
+                        albums.insert(recentlyAdded, at: 0)
                     }
                     if let userLibrary = userLibrary {
-                        self.albums.insert(userLibrary, at: 0)
+                        albums.insert(userLibrary, at: 0)
                     }
-                    self.didFetchAlbums()
+                    DispatchQueue.main.async { [weak self] in
+                        self?.didFetchAlbums(albums)
+                    }
                 }
             })
         }
     }
     
-    private func didFetchAlbums() {
-        self.printAlbums()
+    private func didFetchAlbums(_ albums: [Album]) {
+        print("Did fetch albums.")
+        self.printAlbums(albums)
+        self.albums = albums
+        print("Reload albums collection view.")
         self.collectionView.reloadData()
+        if self.albums.count == 0 {
+            self.state = .noPhotos
+        }
     }
     
-    private func printAlbums() {
+    fileprivate var isReady: Bool {
+        for indexPath in collectionView.indexPathsForVisibleItems {
+            let cell = collectionView.cellForItem(at: indexPath) as! AlbumCell
+            var imgCount = 0
+            for i in 0..<3 {
+                let imageView = cell.imageView(at: i)!
+                if let _ = imageView.image, !imageView.isHidden {
+                    imgCount += 1
+                }
+            }
+            let album = albums[indexPath.row]
+            if (album.photos.count < 3 && imgCount < album.photos.count) || (album.photos.count >= 3 && imgCount < 3) {
+                return false
+            }
+        }
+        return true
+    }
+    
+    private var _state: State = .setup
+    var state: State {
+        get {
+            return _state
+        }
+        set (newState) {
+            guard newState != _state else { return }
+            print("Change state from '\(_state)' to '\(newState)'.")
+            let oldState = _state
+            _state = newState
+            switch newState {
+            case .fetching:
+                assert(oldState == .setup)
+                collectionView.isHidden = false
+                noPhotosLabel.isHidden = true
+                activityIndicator.alpha = 1
+                activityIndicator.startAnimating()
+                fetchAlbums()
+                break
+            case .ready:
+                assert(oldState == .fetching)
+                activityIndicator.stopAnimating()
+                activityIndicator.alpha = 0
+                break
+            case .noPhotos:
+                assert(oldState == .fetching)
+                collectionView.isHidden = true
+                noPhotosLabel.isHidden = false
+                activityIndicator.stopAnimating()
+                activityIndicator.alpha = 0
+                break
+            case .permissionDenied:
+                assert(oldState == .setup)
+                collectionView.isHidden = true
+                noPhotosLabel.isHidden = false
+                activityIndicator.stopAnimating()
+                activityIndicator.alpha = 0
+                break
+            default:
+                break
+            }
+            delegate?.albumsViewController(self, didChangeState: newState)
+        }
+    }
+    
+    private func printAlbums(_ albums: [Album]) {
         for a in albums {
             print("\(a.title), \(a.photos.count) photos")
         }
@@ -163,13 +296,6 @@ class AlbumsViewController: UIViewController {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
-    }
-    
-    @objc func didTapOutsideCells(_ gesture: UITapGestureRecognizer) {
-        print("did tap outside cells")
-//        if let photosVC = self.photosVC, let mainVC = parent as? MainViewController {
-//            mainVC.resumePhotosViewController(photosVC)
-//        }
     }
 }
 
@@ -180,6 +306,7 @@ extension AlbumsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        print("Request cell for item at index path: \(indexPath.row)")
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellReuseID, for: indexPath) as! AlbumCell
         let album = self.albums[indexPath.row]
         cell.titleLabel.text = album.title
@@ -197,12 +324,15 @@ extension AlbumsViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 requestOptions.resizeMode = PHImageRequestOptionsResizeMode.fast
                 requestOptions.deliveryMode = PHImageRequestOptionsDeliveryMode.opportunistic
                 requestOptions.isSynchronous = true
-                
+                print("Request image '\(idx)' (\(album.photos.count) photos) for album '\(album.title)'")
                 DispatchQueue.global().async {
                     PHImageManager.default().requestImage(for: asset, targetSize: self.thumbnailSize, contentMode: PHImageContentMode.aspectFit, options: requestOptions, resultHandler: { (pickedImage, info) in
+                        print("Did pick image '\(idx)' (\(album.photos.count) photos) for album '\(album.title)'")
                         if let img = pickedImage {
+                            print("")
                             if cell.titleLabel.text == album.title {
-                                DispatchQueue.main.async {
+                                DispatchQueue.main.async { [weak self] in
+                                    guard let weakSelf = self else { return }
                                     if album.photos.count == 1 {
                                         cell.middleImageView.image = img
                                         cell.middleImageView.isHidden = false
@@ -210,8 +340,16 @@ extension AlbumsViewController: UICollectionViewDelegate, UICollectionViewDataSo
                                     } else {
                                         cell.imageView(at: 2 - i)!.image = img
                                     }
+                                    if weakSelf.state == .fetching && weakSelf.isReady {
+                                        weakSelf.state = .ready
+                                    }
                                 }
+                            } else {
+                                print("Album changed for this cell, do nothing.")
                             }
+                        } else {
+                            print("Couldn't load image!")
+                            // TODO: Load dummy image instead
                         }
                     })
                 }
@@ -223,10 +361,7 @@ extension AlbumsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let _ = self.photosVC {
-            self.photosVC = nil
-        }
-        selectedIndexPath = indexPath
+        self.selectedIndexPath = indexPath
         let selectedAlbum = albums[indexPath.row]
         var photos: [Photo] = []
         for i in 0..<selectedAlbum.photos.count {
@@ -237,7 +372,6 @@ extension AlbumsViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let photosVC = PhotosViewController(photos: photos)
         let mainVC = parent as? MainViewController
         mainVC?.presentPhotosViewController(photosVC)
-        self.photosVC = photosVC
     }
 }
 
@@ -300,7 +434,7 @@ extension AlbumsViewController: SettingsBarDelegate, TimePopoverDelegate, Animat
         vc.delegate = self
         vc.modalPresentationStyle = .popover
         vc.loadViewIfNeeded()
-        vc.preferredContentSize = CGSize(width: 180, height: 230)
+        vc.preferredContentSize = CGSize(width: 180, height: 274)
         present(vc, animated: true, completion: nil)
         let popover = vc.popoverPresentationController
         popover?.backgroundColor = vc.view.backgroundColor

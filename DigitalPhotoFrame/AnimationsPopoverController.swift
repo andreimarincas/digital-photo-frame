@@ -10,24 +10,36 @@ import UIKit
 
 enum PhotoAnimation: Int {
     case none = 0
+    case any
+    case slide
     case crossDissolve
     case curl
     case flip
-    case any
     
     var localizedName: String {
         switch self {
-        case .none: return String.localized("settings_animation_none_btn")
-        case .crossDissolve: return String.localized("settings_animation_cross_dissolve_btn")
-        case .curl: return String.localized("settings_animation_curl_btn")
-        case .flip: return String.localized("settings_animation_flip_btn")
-        case .any: return String.localized("settings_animation_any_btn")
+        case .none:
+            return String.localized("settings_animation_none_btn")
+        case .crossDissolve:
+            return String.localized("settings_animation_cross_dissolve_btn")
+        case .curl:
+            return String.localized("settings_animation_curl_btn")
+        case .flip:
+            return String.localized("settings_animation_flip_btn")
+        case .any:
+            return String.localized("settings_animation_any_btn")
+        case .slide:
+            return String.localized("settings_animation_slide_btn")
         }
     }
     
-    static var count: Int {
-        return 5
-    }
+    static let count: Int = {
+        var n = 0
+        while let _ = PhotoAnimation(rawValue: n) {
+            n += 1
+        }
+        return n
+    }()
 }
 
 protocol AnimationsPopoverDelegate: class {
@@ -51,7 +63,7 @@ class AnimationsPopoverController: UIViewController {
         
         private func commonInit() {
             textLabel?.font = UIFont.systemFont(ofSize: 17)
-            textLabel?.textColor = UIColor(0, 113, 255)
+            textLabel?.textColor = Color.blueRibbon
             textLabel?.textAlignment = .center
             backgroundColor = .clear
             let selectedBg = UIView()
@@ -87,12 +99,14 @@ class AnimationsPopoverController: UIViewController {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var tableViewHeight: NSLayoutConstraint!
     fileprivate let cellReuseID = "cellReuseID"
+    
+    fileprivate let animations: [PhotoAnimation] = [.none, .any, .crossDissolve, .slide, .curl, .flip]
     fileprivate var selectedRow: Int
     
     weak var delegate: AnimationsPopoverDelegate?
     
     init(animation: PhotoAnimation) {
-        selectedRow = animation.rawValue
+        selectedRow = animations.index(of: animation)!
         super.init(nibName: "AnimationsPopoverController", bundle: nil)
     }
     
@@ -117,7 +131,7 @@ class AnimationsPopoverController: UIViewController {
 extension AnimationsPopoverController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return PhotoAnimation.count
+        return animations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -125,12 +139,20 @@ extension AnimationsPopoverController: UITableViewDelegate, UITableViewDataSourc
         if cell == nil {
             cell = Cell(style: .default, reuseIdentifier: cellReuseID)
         }
-        cell?.textLabel?.text = PhotoAnimation(rawValue: indexPath.row)!.localizedName
+        let anim = animations[indexPath.row]
+        cell?.textLabel?.text = anim.localizedName
+        if anim == .any || anim == .none {
+            cell?.textLabel?.textColor = Color.chileanFire
+            cell?.tintColor = Color.chileanFire
+        } else {
+            cell?.textLabel?.textColor = Color.blueRibbon
+            cell?.tintColor = Color.blueRibbon
+        }
         return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedRow = indexPath.row
-        delegate?.animationsPopover(self, didSelectAnimation: PhotoAnimation(rawValue: selectedRow)!)
+        delegate?.animationsPopover(self, didSelectAnimation: animations[selectedRow])
     }
 }

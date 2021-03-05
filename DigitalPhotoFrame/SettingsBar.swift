@@ -70,10 +70,9 @@ class SettingsBar: UIView {
     }
     
     private func applyButtonStyle(to button: UIButton!) {
-        let blue = UIColor(0, 113, 255)
-        button.setTitleColor(blue, for: .normal)
-        button.setTitleColor(blue.withAlphaComponent(0.3), for: .highlighted)
-        button.setTitleColor(blue.withAlphaComponent(0.3), for: [.selected, .highlighted])
+        button.setTitleColor(Color.blueRibbon, for: .normal)
+        button.setTitleColor(Color.blueRibbon.withAlphaComponent(0.3), for: .highlighted)
+        button.setTitleColor(Color.blueRibbon.withAlphaComponent(0.3), for: [.selected, .highlighted])
     }
     
     func formatValue(_ seconds: Int) -> String {

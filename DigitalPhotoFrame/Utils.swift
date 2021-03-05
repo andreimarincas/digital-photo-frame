@@ -13,6 +13,22 @@ func random_int(_ upper_bound: Int) -> Int {
     return Int(arc4random_uniform(UInt32(upper_bound)))
 }
 
+func random_integers_unique(_ upper_bound: Int) -> [Int] {
+    var res = [Int]()
+    guard upper_bound > 0 else { return res }
+    var values = [Int]()
+    for i in 0..<upper_bound {
+        values.append(i)
+    }
+    while !values.isEmpty {
+        let idx = random_int(values.count)
+        res.append(values[idx])
+        values[idx] = values[values.count - 1]
+        values.removeLast()
+    }
+    return res
+}
+
 extension UIView {
     
     func disableDelaysContentTouches() {

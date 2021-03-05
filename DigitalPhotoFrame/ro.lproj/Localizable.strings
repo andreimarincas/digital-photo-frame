@@ -14,11 +14,12 @@
 "settings_animation_txt" = "Animație:";
 "settings_random_txt" = "Aleator:";
 
-"settings_animation_none_btn" = "FĂRĂ";
+"settings_animation_none_btn" = "NICIUNA";
 "settings_animation_any_btn" = "ORICARE";
 "settings_animation_cross_dissolve_btn" = "DIZOLVARE";
 "settings_animation_curl_btn" = "ONDULARE";
 "settings_animation_flip_btn" = "ROTIRE";
+"settings_animation_slide_btn" = "GLISARE";
 
 "settings_random_yes_btn" = "DA";
 "settings_random_no_btn" = "NU";

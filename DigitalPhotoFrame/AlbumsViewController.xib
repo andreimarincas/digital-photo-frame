@@ -11,7 +11,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AlbumsViewController" customModule="DigitalPhotoFrame" customModuleProvider="target">
             <connections>
+                <outlet property="activityIndicator" destination="zld-bC-ZwD" id="Ft9-Oz-9gi"/>
                 <outlet property="collectionView" destination="vEa-G4-Y7O" id="xK9-qJ-VCy"/>
+                <outlet property="noPhotosLabel" destination="k9b-DZ-R5q" id="yda-YB-Khl"/>
                 <outlet property="settingsBar" destination="oYh-zH-5Sd" id="Ahu-Dz-gTf"/>
                 <outlet property="settingsViewTop" destination="i6d-5x-Mtk" id="1o1-es-pNo"/>
                 <outlet property="view" destination="iN0-l3-epB" id="h6R-Ni-eyH"/>
@@ -176,7 +178,7 @@
                             </subviews>
                         </stackView>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.050000000000000003" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="hLE-U5-Xis" firstAttribute="top" secondItem="oYh-zH-5Sd" secondAttribute="top" constant="20" id="4WF-Ss-VEM"/>
                         <constraint firstItem="hLE-U5-Xis" firstAttribute="leading" secondItem="oYh-zH-5Sd" secondAttribute="leading" id="BKc-O0-Wia"/>
@@ -197,18 +199,31 @@
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SF8-G8-BPb" userLabel="Separator">
                     <rect key="frame" x="0.0" y="64" width="1024" height="1"/>
-                    <color key="backgroundColor" white="0.059999999999999998" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="DAQ-AB-tY2"/>
                     </constraints>
                 </view>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Photos" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k9b-DZ-R5q">
+                    <rect key="frame" x="443" y="398" width="139" height="36"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                    <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="zld-bC-ZwD">
+                    <rect key="frame" x="502" y="406" width="20" height="20"/>
+                </activityIndicatorView>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.050000000000000003" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="k9b-DZ-R5q" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="3gw-Es-gZv"/>
+                <constraint firstItem="zld-bC-ZwD" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="32" id="AVQ-FB-Ib8"/>
                 <constraint firstItem="oYh-zH-5Sd" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="DIr-oa-Txe"/>
                 <constraint firstItem="SF8-G8-BPb" firstAttribute="top" secondItem="oYh-zH-5Sd" secondAttribute="bottom" id="DcO-C0-d9j"/>
                 <constraint firstAttribute="bottom" secondItem="vEa-G4-Y7O" secondAttribute="bottom" id="G4e-gF-62V"/>
+                <constraint firstItem="k9b-DZ-R5q" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="32" id="M4s-Vb-5Cd"/>
                 <constraint firstItem="vEa-G4-Y7O" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="N0o-vT-Pxb"/>
+                <constraint firstItem="zld-bC-ZwD" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Qng-rQ-nqo"/>
                 <constraint firstItem="vEa-G4-Y7O" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Rf8-gi-10N"/>
                 <constraint firstAttribute="trailing" secondItem="oYh-zH-5Sd" secondAttribute="trailing" id="V9Y-Uq-wpF"/>
                 <constraint firstAttribute="trailing" secondItem="SF8-G8-BPb" secondAttribute="trailing" id="goV-bo-mPA"/>

@@ -27,6 +27,10 @@
 		F2D1BFE71FFDBDDB00DF7000 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D1BFE61FFDBDDB00DF7000 /* Settings.swift */; };
 		F2D1BFE91FFDD99700DF7000 /* AnimationsPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D1BFE81FFDD99700DF7000 /* AnimationsPopoverController.swift */; };
 		F2D1BFEB1FFDD9B700DF7000 /* AnimationsPopoverController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2D1BFEA1FFDD9B700DF7000 /* AnimationsPopoverController.xib */; };
+		F2D1BFED1FFE84AA00DF7000 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D1BFEC1FFE84AA00DF7000 /* Random.swift */; };
+		F2D1BFEF1FFF1A2100DF7000 /* CALayer+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D1BFEE1FFF1A2100DF7000 /* CALayer+Util.swift */; };
+		F2D1BFF22000178F00DF7000 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F2D1BFF42000178F00DF7000 /* InfoPlist.strings */; };
+		F2D1BFF7200062E200DF7000 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D1BFF6200062E200DF7000 /* Color.swift */; };
 		F2D745621FFAAA6500D9BE72 /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D745611FFAAA6500D9BE72 /* PhotosViewController.swift */; };
 		F2D745661FFACCD100D9BE72 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2D745651FFACCD100D9BE72 /* MainViewController.xib */; };
 		F2D745681FFACCE200D9BE72 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D745671FFACCE200D9BE72 /* MainViewController.swift */; };
@@ -67,6 +71,11 @@
 		F2D1BFE61FFDBDDB00DF7000 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		F2D1BFE81FFDD99700DF7000 /* AnimationsPopoverController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationsPopoverController.swift; sourceTree = "<group>"; };
 		F2D1BFEA1FFDD9B700DF7000 /* AnimationsPopoverController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AnimationsPopoverController.xib; sourceTree = "<group>"; };
+		F2D1BFEC1FFE84AA00DF7000 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
+		F2D1BFEE1FFF1A2100DF7000 /* CALayer+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+Util.swift"; sourceTree = "<group>"; };
+		F2D1BFF32000178F00DF7000 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F2D1BFF52000179700DF7000 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F2D1BFF6200062E200DF7000 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		F2D745611FFAAA6500D9BE72 /* PhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
 		F2D745651FFACCD100D9BE72 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 		F2D745671FFACCE200D9BE72 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -97,6 +106,7 @@
 				F27985AE1FF3717D0066EDA3 /* Info.plist */,
 				F225082B1FFC9A5400EBF3AC /* Base.lproj */,
 				F22508311FFC9A5400EBF3AC /* ro.lproj */,
+				F2D1BFF42000178F00DF7000 /* InfoPlist.strings */,
 			);
 			name = Resources;
 			path = ..;
@@ -160,6 +170,9 @@
 				F23B88041FF98C5200721312 /* Utils.swift */,
 				F27BA1D91FFC9D1900A2015C /* String+Localized.swift */,
 				F2D1BFE21FFD997400DF7000 /* UIColor+Util.swift */,
+				F2D1BFEC1FFE84AA00DF7000 /* Random.swift */,
+				F2D1BFEE1FFF1A2100DF7000 /* CALayer+Util.swift */,
+				F2D1BFF6200062E200DF7000 /* Color.swift */,
 				F225082A1FFC9A3900EBF3AC /* Resources */,
 			);
 			path = DigitalPhotoFrame;
@@ -269,6 +282,7 @@
 				F22508361FFC9A5400EBF3AC /* Localizable.strings in Resources */,
 				F27985AA1FF3717D0066EDA3 /* Assets.xcassets in Resources */,
 				F2A803311FF86CF600C36C3C /* AlbumCell.xib in Resources */,
+				F2D1BFF22000178F00DF7000 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,12 +305,15 @@
 				F2A8032B1FF8673B00C36C3C /* AlbumsViewController.swift in Sources */,
 				F27BA1DA1FFC9D1900A2015C /* String+Localized.swift in Sources */,
 				F2A8032F1FF86B9C00C36C3C /* AlbumCell.swift in Sources */,
+				F2D1BFF7200062E200DF7000 /* Color.swift in Sources */,
 				F2D745621FFAAA6500D9BE72 /* PhotosViewController.swift in Sources */,
+				F2D1BFED1FFE84AA00DF7000 /* Random.swift in Sources */,
 				F23B88031FF96E7C00721312 /* Device.swift in Sources */,
 				F2D1BFE91FFDD99700DF7000 /* AnimationsPopoverController.swift in Sources */,
 				F23B88051FF98C5200721312 /* Utils.swift in Sources */,
 				F2D1BFE71FFDBDDB00DF7000 /* Settings.swift in Sources */,
 				F2D1BFD71FFCA01B00DF7000 /* SettingsBar.swift in Sources */,
+				F2D1BFEF1FFF1A2100DF7000 /* CALayer+Util.swift in Sources */,
 				F2D745681FFACCE200D9BE72 /* MainViewController.swift in Sources */,
 				F2D1BFE31FFD997400DF7000 /* UIColor+Util.swift in Sources */,
 			);
@@ -335,6 +352,15 @@
 				F22508331FFC9A5400EBF3AC /* ro */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		F2D1BFF42000178F00DF7000 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F2D1BFF32000178F00DF7000 /* ro */,
+				F2D1BFF52000179700DF7000 /* Base */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

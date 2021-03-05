@@ -27,7 +27,7 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="150" id="gz0-yT-ntl"/>
                     </constraints>
-                    <color key="separatorColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="separatorColor" white="0.059999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="O4i-fd-FVQ"/>
                         <outlet property="delegate" destination="-1" id="wtP-Sj-Rfb"/>

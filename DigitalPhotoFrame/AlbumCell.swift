@@ -58,6 +58,13 @@ class AlbumCell: UICollectionViewCell {
         }
         return count
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        frontImageView.image = nil
+        backImageView.image = nil
+        middleImageView.image = nil
+    }
 }
 
 /* Unfold / Foldup animations */

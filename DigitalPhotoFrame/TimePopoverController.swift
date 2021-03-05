@@ -64,7 +64,7 @@ extension TimePopoverController: UIPickerViewDataSource, UIPickerViewDelegate {
         if label == nil {
             label = UILabel()
             label?.font = UIFont.systemFont(ofSize: 17)
-            label?.textColor = UIColor(0, 113, 255)
+            label?.textColor = Color.blueRibbon
             label?.textAlignment = .center
         }
         label?.text = formatTime(values[row])

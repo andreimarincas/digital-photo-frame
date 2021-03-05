@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  DigitalPhotoFrame
+
+  Created by Andrei Marincas on 1/5/18.
+  Copyright © 2018 Andrei Marincas. All rights reserved.
+*/
+
+"NSPhotoLibraryUsageDescription" = "...pentru că fiecare poză spune o poveste.";

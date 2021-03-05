@@ -21,11 +21,11 @@
             <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wjg-5n-k4K" userLabel="Image View2">
+                <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kj3-lp-lzc">
                     <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </imageView>
-                <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kj3-lp-lzc">
+                <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wjg-5n-k4K" userLabel="Image View2">
                     <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </imageView>
@@ -33,18 +33,14 @@
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <gestureRecognizers/>
             <constraints>
-                <constraint firstItem="kj3-lp-lzc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="DPr-m4-WHs"/>
-                <constraint firstItem="Wjg-5n-k4K" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="NPV-Me-lAy"/>
-                <constraint firstAttribute="bottom" secondItem="Wjg-5n-k4K" secondAttribute="bottom" id="Tj6-zI-aza"/>
-                <constraint firstItem="Wjg-5n-k4K" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="UHJ-UM-csh"/>
-                <constraint firstItem="kj3-lp-lzc" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="ZKf-D9-Vst"/>
-                <constraint firstAttribute="bottom" secondItem="kj3-lp-lzc" secondAttribute="bottom" id="df4-UM-lWv"/>
-                <constraint firstItem="Wjg-5n-k4K" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="f3P-Lx-YoG"/>
-                <constraint firstItem="kj3-lp-lzc" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="ivc-rX-A5b"/>
-                <constraint firstItem="kj3-lp-lzc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="kJC-eD-3t1"/>
-                <constraint firstAttribute="trailing" secondItem="Wjg-5n-k4K" secondAttribute="trailing" id="rP8-hc-uPx"/>
-                <constraint firstItem="Wjg-5n-k4K" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="uC3-Kr-n6i"/>
-                <constraint firstAttribute="trailing" secondItem="kj3-lp-lzc" secondAttribute="trailing" id="uRo-yu-Ltq"/>
+                <constraint firstItem="Wjg-5n-k4K" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="3mZ-cI-dG8"/>
+                <constraint firstItem="kj3-lp-lzc" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="4Rw-io-4Se"/>
+                <constraint firstItem="kj3-lp-lzc" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="8xf-bB-jnz"/>
+                <constraint firstItem="Wjg-5n-k4K" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="Q5f-xz-E0C"/>
+                <constraint firstItem="kj3-lp-lzc" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="QIO-p0-AOQ"/>
+                <constraint firstItem="Wjg-5n-k4K" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="WsG-Zr-l5l"/>
+                <constraint firstItem="Wjg-5n-k4K" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="eWg-8i-aLx"/>
+                <constraint firstItem="kj3-lp-lzc" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="w2D-Is-Lqj"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <connections>

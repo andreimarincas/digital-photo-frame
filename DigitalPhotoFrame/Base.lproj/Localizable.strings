@@ -19,6 +19,7 @@
 "settings_animation_cross_dissolve_btn" = "FADE";
 "settings_animation_curl_btn" = "CURL";
 "settings_animation_flip_btn" = "FLIP";
+"settings_animation_slide_btn" = "SLIDE";
 
 "settings_random_yes_btn" = "YES";
 "settings_random_no_btn" = "NO";

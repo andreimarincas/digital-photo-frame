@@ -8,9 +8,9 @@
 
 import Foundation
 
-fileprivate let time_key = "time"
-fileprivate let animation_key = "animation"
-fileprivate let is_random_key = "is_random"
+fileprivate let time_key = "digitalphotoframe-time-key"
+fileprivate let animation_key = "digitalphotoframe-animation-key"
+fileprivate let is_random_key = "digitalphotoframe-is_random-key"
 
 class Settings {
     
@@ -26,6 +26,7 @@ class Settings {
         }
         set {
             userDefaults.set(newValue, forKey: time_key)
+            userDefaults.synchronize()
         }
     }
     
@@ -39,6 +40,7 @@ class Settings {
         }
         set {
             userDefaults.set(newValue.rawValue, forKey: animation_key)
+            userDefaults.synchronize()
         }
     }
     
@@ -48,6 +50,7 @@ class Settings {
         }
         set {
             userDefaults.set(newValue, forKey: is_random_key)
+            userDefaults.synchronize()
         }
     }
 }

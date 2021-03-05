@@ -33,4 +33,48 @@ class DigitalPhotoFrameTests: XCTestCase {
         }
     }
     
+    private func allUnique(in array: [Int]) -> Bool? {
+        guard array.count > 0 else { return nil }
+        var occurrences = Array(repeating: 0, count: array.count)
+        for i in 0..<array.count {
+            let e = array[i]
+            guard e >= 0 && e < array.count else { return nil }
+            let occ = occurrences[e] + 1
+            if occ > 1 {
+                return false
+            }
+            occurrences[e] = occ
+        }
+        return true
+    }
+    
+    func testRandomValues(_ upper_bound: Int) {
+        let randomValues = random_integers_unique(upper_bound)
+        assert(randomValues.count == upper_bound)
+        assert(allUnique(in: randomValues)!)
+    }
+    
+    func testRandomObject(_ upper_bound: Int) {
+        let random = Random(upper_bound)
+        var randomValues = [Int]()
+        while let r = random.next {
+            randomValues.append(r)
+        }
+        print(randomValues)
+        assert(randomValues.count == upper_bound)
+        assert(allUnique(in: randomValues)!)
+    }
+    
+    func doTestRandom(_ upper_bound: Int) {
+        testRandomValues(upper_bound)
+        testRandomObject(upper_bound)
+    }
+    
+    func testRandom() {
+        doTestRandom(10)
+        doTestRandom(100)
+        doTestRandom(1000)
+        doTestRandom(10000)
+        doTestRandom(100000)
+    }
 }
