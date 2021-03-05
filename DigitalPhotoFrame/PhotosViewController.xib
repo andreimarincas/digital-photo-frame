@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="landscape">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PhotosViewController" customModule="DigitalPhotoFrame" customModuleProvider="target">
+            <connections>
+                <outlet property="imageView1" destination="kj3-lp-lzc" id="4qY-L4-G7Q"/>
+                <outlet property="imageView2" destination="Wjg-5n-k4K" id="k48-Sx-FlX"/>
+                <outlet property="view" destination="iN0-l3-epB" id="s4H-om-1hn"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wjg-5n-k4K" userLabel="Image View2">
+                    <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                </imageView>
+                <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kj3-lp-lzc">
+                    <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <gestureRecognizers/>
+            <constraints>
+                <constraint firstItem="kj3-lp-lzc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="DPr-m4-WHs"/>
+                <constraint firstItem="Wjg-5n-k4K" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="NPV-Me-lAy"/>
+                <constraint firstAttribute="bottom" secondItem="Wjg-5n-k4K" secondAttribute="bottom" id="Tj6-zI-aza"/>
+                <constraint firstItem="Wjg-5n-k4K" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="UHJ-UM-csh"/>
+                <constraint firstItem="kj3-lp-lzc" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="ZKf-D9-Vst"/>
+                <constraint firstAttribute="bottom" secondItem="kj3-lp-lzc" secondAttribute="bottom" id="df4-UM-lWv"/>
+                <constraint firstItem="Wjg-5n-k4K" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="f3P-Lx-YoG"/>
+                <constraint firstItem="kj3-lp-lzc" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="ivc-rX-A5b"/>
+                <constraint firstItem="kj3-lp-lzc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="kJC-eD-3t1"/>
+                <constraint firstAttribute="trailing" secondItem="Wjg-5n-k4K" secondAttribute="trailing" id="rP8-hc-uPx"/>
+                <constraint firstItem="Wjg-5n-k4K" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="uC3-Kr-n6i"/>
+                <constraint firstAttribute="trailing" secondItem="kj3-lp-lzc" secondAttribute="trailing" id="uRo-yu-Ltq"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="DMO-h9-4Vd" appends="YES" id="S9f-qB-v6P"/>
+            </connections>
+            <point key="canvasLocation" x="33.5" y="117.5"/>
+        </view>
+        <tapGestureRecognizer id="DMO-h9-4Vd">
+            <connections>
+                <action selector="handleTapWithGesture:" destination="-1" id="F58-iS-lqv"/>
+            </connections>
+        </tapGestureRecognizer>
+    </objects>
+</document>

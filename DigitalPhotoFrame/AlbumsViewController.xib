@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad9_7" orientation="landscape">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AlbumsViewController" customModule="DigitalPhotoFrame" customModuleProvider="target">
+            <connections>
+                <outlet property="collectionView" destination="vEa-G4-Y7O" id="xK9-qJ-VCy"/>
+                <outlet property="view" destination="iN0-l3-epB" id="h6R-Ni-eyH"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3VG-I4-6ni" userLabel="Background">
+                    <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Background-3" translatesAutoresizingMaskIntoConstraints="NO" id="YP5-FF-ro2" userLabel="Bg Image View">
+                            <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        </imageView>
+                        <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="viH-oA-bSZ">
+                            <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="DlC-PP-P9r">
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P2L-7o-90x">
+                                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Xuz-gW-4dc">
+                                            <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        </view>
+                                        <vibrancyEffect>
+                                            <blurEffect style="dark"/>
+                                        </vibrancyEffect>
+                                    </visualEffectView>
+                                </subviews>
+                            </view>
+                            <constraints>
+                                <constraint firstItem="P2L-7o-90x" firstAttribute="leading" secondItem="viH-oA-bSZ" secondAttribute="leading" id="A7G-dB-tcy"/>
+                                <constraint firstItem="P2L-7o-90x" firstAttribute="centerX" secondItem="viH-oA-bSZ" secondAttribute="centerX" id="C3T-kQ-shQ"/>
+                                <constraint firstItem="P2L-7o-90x" firstAttribute="centerY" secondItem="viH-oA-bSZ" secondAttribute="centerY" id="CqR-kc-P4R"/>
+                                <constraint firstItem="P2L-7o-90x" firstAttribute="top" secondItem="viH-oA-bSZ" secondAttribute="top" id="cPp-BI-p1b"/>
+                                <constraint firstAttribute="bottom" secondItem="P2L-7o-90x" secondAttribute="bottom" id="cyA-bC-7HA"/>
+                                <constraint firstAttribute="trailing" secondItem="P2L-7o-90x" secondAttribute="trailing" id="u3U-bY-eXO"/>
+                            </constraints>
+                            <blurEffect style="dark"/>
+                        </visualEffectView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="YP5-FF-ro2" secondAttribute="trailing" id="1hq-wu-6bd"/>
+                        <constraint firstItem="viH-oA-bSZ" firstAttribute="centerX" secondItem="3VG-I4-6ni" secondAttribute="centerX" id="4sW-LW-FN1"/>
+                        <constraint firstItem="YP5-FF-ro2" firstAttribute="centerX" secondItem="3VG-I4-6ni" secondAttribute="centerX" id="7m8-0L-tCY"/>
+                        <constraint firstItem="YP5-FF-ro2" firstAttribute="leading" secondItem="3VG-I4-6ni" secondAttribute="leading" id="Kgy-c4-Eor"/>
+                        <constraint firstItem="YP5-FF-ro2" firstAttribute="top" secondItem="3VG-I4-6ni" secondAttribute="top" id="KsD-0A-cel"/>
+                        <constraint firstItem="viH-oA-bSZ" firstAttribute="leading" secondItem="3VG-I4-6ni" secondAttribute="leading" id="XB7-gq-BjV"/>
+                        <constraint firstAttribute="trailing" secondItem="viH-oA-bSZ" secondAttribute="trailing" id="bYg-fg-S0f"/>
+                        <constraint firstItem="YP5-FF-ro2" firstAttribute="centerY" secondItem="3VG-I4-6ni" secondAttribute="centerY" id="biV-hH-Apg"/>
+                        <constraint firstAttribute="bottom" secondItem="YP5-FF-ro2" secondAttribute="bottom" id="cDM-KI-kQn"/>
+                        <constraint firstAttribute="bottom" secondItem="viH-oA-bSZ" secondAttribute="bottom" id="hN5-ee-YkO"/>
+                        <constraint firstItem="viH-oA-bSZ" firstAttribute="top" secondItem="3VG-I4-6ni" secondAttribute="top" id="t6H-XJ-Wkd"/>
+                        <constraint firstItem="viH-oA-bSZ" firstAttribute="centerY" secondItem="3VG-I4-6ni" secondAttribute="centerY" id="ytP-Pe-JLA"/>
+                    </constraints>
+                </view>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="vEa-G4-Y7O">
+                    <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="70" minimumInteritemSpacing="70" id="CnX-Yn-lZ5">
+                        <size key="itemSize" width="150" height="150"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="100" minY="100" maxX="100" maxY="100"/>
+                    </collectionViewFlowLayout>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="Hbk-yi-WfV"/>
+                        <outlet property="delegate" destination="-1" id="hCM-1x-l8F"/>
+                    </connections>
+                </collectionView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="vEa-G4-Y7O" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="4aB-z0-TD9"/>
+                <constraint firstItem="vEa-G4-Y7O" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="BZy-2Y-kzy"/>
+                <constraint firstItem="3VG-I4-6ni" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Cd7-vn-IMT"/>
+                <constraint firstAttribute="bottom" secondItem="vEa-G4-Y7O" secondAttribute="bottom" id="G4e-gF-62V"/>
+                <constraint firstItem="3VG-I4-6ni" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="MaH-iJ-sL0"/>
+                <constraint firstItem="vEa-G4-Y7O" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Rf8-gi-10N"/>
+                <constraint firstItem="vEa-G4-Y7O" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="e5q-Rq-TuW"/>
+                <constraint firstAttribute="trailing" secondItem="3VG-I4-6ni" secondAttribute="trailing" id="pqm-6j-EQ4"/>
+                <constraint firstAttribute="bottom" secondItem="3VG-I4-6ni" secondAttribute="bottom" id="qVD-Uc-6F6"/>
+                <constraint firstItem="3VG-I4-6ni" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="tTK-YX-xAg"/>
+                <constraint firstItem="3VG-I4-6ni" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="trT-Mr-bMf"/>
+                <constraint firstAttribute="trailing" secondItem="vEa-G4-Y7O" secondAttribute="trailing" id="uhv-TI-LyU"/>
+            </constraints>
+            <point key="canvasLocation" x="33" y="133"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Background-3" width="1024" height="768"/>
+    </resources>
+</document>
